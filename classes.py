@@ -1,4 +1,6 @@
 ##################### ÜBUNGSBLATT 1 #####################
+import csv
+
 class Stock:
     #Constructor
     def __init__(self, name, wkn, symbol):
@@ -6,6 +8,7 @@ class Stock:
         self.wkn = wkn
         self.symbol = symbol
         # TODO: Add date and prices somehow (maybe price array?)
+        self.data = []
 
 class Hashtable:
     # Constructor
@@ -49,6 +52,8 @@ class Hashtable:
                     if(number) >= self.size:
                         print("No possible index for this stock")
 
+
+
     # Method to delete stock from the hashtable
     def deleteStock(self, wkn):
         foundStock = False
@@ -82,6 +87,27 @@ class Hashtable:
         else:
             print("No Stock with WKN", wkn, "found")
 
+    # Method to import stock data from csv file
+    def importStockData(self, wkn, symbol):
+        import_folder = "import/"
+        _csv = ".csv"
+        file_path = import_folder + symbol + _csv
+        index = self.hashFunction(wkn)  # Calculate index for the stock
+        if self.table[index] and self.table[index].wkn == wkn: # Check if stock with wkn exists
+            with open(file_path, 'r') as file:
+                reader = csv.reader(file)
+                next(reader)  # Skip header
+                count = 0
+                for row in reader:
+                    if count < 30:
+                        self.table[index].data.append(row)
+                        count += 1
+                    else:
+                        break
+            print("Imported data for ", wkn)
+        else:
+            print("No stock with symbol ", wkn, " found")
+
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
         # TODO: Improve search function if possible
@@ -92,6 +118,12 @@ class Hashtable:
                 print("WKN: ", self.table[index].wkn)
                 print("Symbol: ", self.table[index].symbol)
                 print("Index: ", index)
+                
+                # TODO: Print AVG DATA of last 30 days
+                if self.table[index].data:
+                    print(self.table[index].data)
+                else:
+                    print("No data found for this stock.")
                 break
             else:
                 index += 1
