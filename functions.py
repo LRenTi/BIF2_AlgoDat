@@ -1,5 +1,6 @@
 ##################### ÜBUNGSBLATT 1 #####################
 def menuText():
+    print("#######################################################################################")
     print("ÜBUNG 1 - HASHTABELLE")
     print("1 - ADD: Eine Aktie mit Namen, WKN und Kürzel wird hinzugefügt.")
     print("2 - DEL: Aktie wird gelöscht.")
@@ -9,3 +10,4 @@ def menuText():
     print("6 - SAVE <filename>: Programm speichert die Hashtabelle in eine Datei ab")
     print("7 - LOAD <filename>: Programm lädt die Hashtabelle aus einer Datei")
     print("8 - QUIT: Programm wird beendet")
+    print("#######################################################################################")
