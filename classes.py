@@ -52,6 +52,8 @@ class Hashtable:
                     if(number) >= self.size:
                         print("No possible index for this stock")
 
+
+
     # Method to delete stock from the hashtable
     def deleteStock(self, wkn):
         foundStock = False
@@ -85,6 +87,30 @@ class Hashtable:
         else:
             print("No Stock with WKN", wkn, "found")
 
+    # Method to import stock data from csv file
+    def importStockData(self, symbol, csv_file):
+        import_folder = "import/"
+        file_path = import_folder + csv_file
+        index = self.hashFunction(symbol)  # Berechnen Sie den Index direkt mit der Hashfunktion basierend auf dem Symbol
+        if self.table[index] and self.table[index].symbol == symbol:
+            with open(file_path, 'r') as file:
+                reader = csv.reader(file)
+                next(reader)  # Überspringen des Headers
+                count = 0
+                for row in reader:
+                    if count < 30:
+                        self.table[index].data.append(row)
+                        count += 1
+                    else:
+                        break
+            print("Imported data for ", symbol)
+        else:
+            print("No stock with symbol ", symbol, " found")
+
+
+
+
+
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
         # TODO: Improve search function if possible
@@ -95,8 +121,9 @@ class Hashtable:
                 print("WKN: ", self.table[index].wkn)
                 print("Symbol: ", self.table[index].symbol)
                 print("Index: ", index)
-                if stock.data:
-                    print(stock.data)
+                
+                if self.table[index].data:
+                    print(self.table[index].data)
                 else:
                     print("No data found for this stock.")
                 break
