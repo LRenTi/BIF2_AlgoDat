@@ -37,7 +37,8 @@ def main():
 
         elif userInput == '5':
             # TODO: Print plot
-            print("Implement PLOT")
+            wkn = input("Enter WKN of stock to plot: ")
+            hashtable.plotStockData(wkn)
 
         elif userInput == '6':
             # TODO: Save hashtable to file

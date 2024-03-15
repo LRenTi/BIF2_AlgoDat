@@ -1,5 +1,7 @@
 ##################### ÜBUNGSBLATT 1 #####################
 import csv
+import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
+
 
 class Stock:
     #Constructor
@@ -135,4 +137,23 @@ class Hashtable:
                 index += 1
             if(index == self.size):
                 print("No stock with search-value", searchValue, "found")
-        
+    
+    # Method to plot stock data
+    def plotStockData(self, wkn):
+        index = self.hashFunction(wkn)
+        if self.table[index] and self.table[index].wkn == wkn:
+            data = self.table[index].data
+            dates = [row[0][5:] for row in data]
+            close_prices = [float(row[4]) for row in data]
+
+            plt.plot(dates, close_prices, marker='o', linestyle='-')
+            plt.xlabel('Date')
+            plt.ylabel('Close Price')
+            plt.title(f'Stock {wkn} Close Prices Over the Last 30 Days')
+            plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+            plt.grid(True)
+            plt.tight_layout()
+            plt.show()
+        else:
+            print("No stock with symbol", wkn, "found")
+
