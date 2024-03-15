@@ -25,7 +25,7 @@ def main():
             hashtable.deleteStock(deleteWKN)
 
         elif userInput == '3':
-            print("Make sure to have a csv file in the import folder with the stock symbol as name")
+            print("Make sure to have a csv file in the import folder with the stock symbol as name.")
             wkn = input("Input WKN: ") # WKN is needed to calculate the index for the hashtable
             symbol = input("Enter stock symbol: ") # Symbol is needed to find the csv file
             hashtable.importStockData(wkn, symbol)

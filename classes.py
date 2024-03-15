@@ -99,14 +99,14 @@ class Hashtable:
                 next(reader)  # Skip header
                 count = 0
                 for row in reader:
-                    if count < 30:
+                    if count <= 30:
                         self.table[index].data.append(row)
                         count += 1
                     else:
                         break
-            print("Imported data for ", wkn)
+            print("Imported data for", wkn)
         else:
-            print("No stock with symbol ", wkn, " found")
+            print("No stock with symbol", wkn, "found")
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
@@ -119,9 +119,15 @@ class Hashtable:
                 print("Symbol: ", self.table[index].symbol)
                 print("Index: ", index)
                 
-                # TODO: Print AVG DATA of last 30 days
                 if self.table[index].data:
-                    print(self.table[index].data)
+                    print("Last data entry: ")
+                    print("Date: ", self.table[index].data[0][0])
+                    print("Open: ", self.table[index].data[0][1])
+                    print("High: ", self.table[index].data[0][2])
+                    print("Low: ", self.table[index].data[0][3])
+                    print("Close: ", self.table[index].data[0][4])
+                    print("Adj Close: ", self.table[index].data[0][5])
+                    print("Volume: ", self.table[index].data[0][6])
                 else:
                     print("No data found for this stock.")
                 break
