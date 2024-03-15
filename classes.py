@@ -92,11 +92,11 @@ class Hashtable:
         import_folder = "import/"
         _csv = ".csv"
         file_path = import_folder + symbol + _csv
-        index = self.hashFunction(wkn)  # Berechnen Sie den Index direkt mit der Hashfunktion basierend auf dem Symbol
-        if self.table[index] and self.table[index].wkn == wkn:
+        index = self.hashFunction(wkn)  # Calculate index for the stock
+        if self.table[index] and self.table[index].wkn == wkn: # Check if stock with wkn exists
             with open(file_path, 'r') as file:
                 reader = csv.reader(file)
-                next(reader)  # Überspringen des Headers
+                next(reader)  # Skip header
                 count = 0
                 for row in reader:
                     if count < 30:
