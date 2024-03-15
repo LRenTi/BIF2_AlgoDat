@@ -3,8 +3,7 @@ import functions
 import classes
 
 def main():
-    # TODO: add Primzahl as size
-    size = 1300 # Max 1000 Stocks + 30 %
+    size = 1301 # Max 1000 Stocks + 30 % + 1 (for primary number)
     hashtable = classes.Hashtable(size)
 
     while True:
