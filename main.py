@@ -4,7 +4,7 @@ import classes
 
 def main():
 
-    size = 1300 #Max 1000 Stocks + 30%
+    size = 1300 # Max 1000 Stocks + 30 %
     hashtable = classes.Hashtable(size)
 
     while True:
@@ -12,42 +12,42 @@ def main():
         userInput = input("Input: ")
 
         if userInput == '1':
-            #Add stock
+            # Add stock
             name = input("Enter stock name: ")
             wkn = input("Enter stock WKN: ")
             symbol = input("Enter stock symbol: ")
             stock = classes.Stock(name, wkn, symbol)
-            #Add to hashtable
+            # Add to hashtable
             hashtable.addStock(stock)
 
         elif userInput == '2':
-            #Delete from hashtable
+            # Delete from hashtable
             deleteWKN = input("Enter WKN of stock to delete: ")
             hashtable.deleteStock(deleteWKN)
 
         elif userInput == '3':
-            #Import from csv
+            # TODO: Import from csv
             print("Implement IMPORT")
 
         elif userInput == '4':
-            #Search for Stock
+            # Search for Stock
             searchValue = input("Enter name or symbol of Stock: ")
             hashtable.searchStock(searchValue)
 
         elif userInput == '5':
-            #Print plot
+            # TODO: Print plot
             print("Implement PLOT")
 
         elif userInput == '6':
-            #Save hashtable to file
+            # TODO: Save hashtable to file
             print("Implement SAVE")
 
         elif userInput == '7':
-            #Load hashtable from file
+            # TODO: Load hashtable from file
             print("Implement LOAD")
 
         elif userInput == '8':
-            #Quit program
+            # Quit program
             break
 
         else:

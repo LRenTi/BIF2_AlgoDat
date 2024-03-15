@@ -1,11 +1,11 @@
 ##################### ÜBUNGSBLATT 1 #####################
 class Stock:
     #Constructor
-    def __init__(self, name, WKN, symbol):
+    def __init__(self, name, wkn, symbol):
         self.name = name
-        self.wkn = WKN
+        self.wkn = wkn
         self.symbol = symbol
-        # TODO: Add date and prices somehow
+        # TODO: Add date and prices somehow (maybe price array?)
 
 class Hashtable:
     # Constructor
@@ -15,6 +15,7 @@ class Hashtable:
 
     # Method to generate hash value from key value
     def hashFunction(self, keyValue):
+        # TODO: Create our own hash function
         return hash(keyValue) % self.size
     
     # Method to add stock to hashtable
@@ -25,7 +26,7 @@ class Hashtable:
         if self.table[index] is None:
             self.table[index] = stock
         # Else a collision is detected
-        # TODO: Handle collision accordingly
+        # TODO: Handle collision accordingly (Quadratische Soldierung)
         else:
             print("COLLISION DETECTED for KeyValue ", stock.wkn)
 
@@ -46,6 +47,7 @@ class Hashtable:
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
+        # TODO: Improve search function if possible
         index = 0
         for i in self.table:
             if self.table[index] is not None and self.table[index].name == searchValue or self.table[index] is not None and self.table[index].symbol == searchValue:
