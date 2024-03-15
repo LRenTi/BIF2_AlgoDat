@@ -27,7 +27,9 @@ def main():
 
         elif userInput == '3':
             # TODO: Import from csv
-            print("Implement IMPORT")
+            symbol = input("Input Symbol: ")
+            csv_file = input("CSV file to import: ")
+            hashtable.importStockData(symbol, csv_file)
 
         elif userInput == '4':
             # Search for Stock
