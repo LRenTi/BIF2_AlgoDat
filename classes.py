@@ -88,11 +88,12 @@ class Hashtable:
             print("No Stock with WKN", wkn, "found")
 
     # Method to import stock data from csv file
-    def importStockData(self, symbol, csv_file):
+    def importStockData(self, wkn, symbol):
         import_folder = "import/"
-        file_path = import_folder + csv_file
-        index = self.hashFunction(symbol)  # Berechnen Sie den Index direkt mit der Hashfunktion basierend auf dem Symbol
-        if self.table[index] and self.table[index].symbol == symbol:
+        _csv = ".csv"
+        file_path = import_folder + symbol + _csv
+        index = self.hashFunction(wkn)  # Berechnen Sie den Index direkt mit der Hashfunktion basierend auf dem Symbol
+        if self.table[index] and self.table[index].wkn == wkn:
             with open(file_path, 'r') as file:
                 reader = csv.reader(file)
                 next(reader)  # Überspringen des Headers
@@ -103,13 +104,9 @@ class Hashtable:
                         count += 1
                     else:
                         break
-            print("Imported data for ", symbol)
+            print("Imported data for ", wkn)
         else:
-            print("No stock with symbol ", symbol, " found")
-
-
-
-
+            print("No stock with symbol ", wkn, " found")
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
@@ -122,6 +119,7 @@ class Hashtable:
                 print("Symbol: ", self.table[index].symbol)
                 print("Index: ", index)
                 
+                # TODO: Print AVG DATA of last 30 days
                 if self.table[index].data:
                     print(self.table[index].data)
                 else:
