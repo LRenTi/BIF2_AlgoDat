@@ -48,6 +48,7 @@ class Hashtable:
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
         # TODO: Improve search function if possible
+            # TODO: Add a warning if no stock is found
         index = 0
         for i in self.table:
             if self.table[index] is not None and self.table[index].name == searchValue or self.table[index] is not None and self.table[index].symbol == searchValue:
@@ -58,3 +59,4 @@ class Hashtable:
                 break
             else:
                 index += 1
+        
