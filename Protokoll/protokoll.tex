@@ -1,0 +1,42 @@
+\documentclass{proc}
+\usepackage[top=0]{geometry}
+\usepackage[margin=1cm]{geometry}
+\usepackage[german]{babel}
+
+\title{Hashtabelle Protokoll}
+\author{Lorenz Rentenberger, Samuel Hammerschmidt}
+\date{März 2024}
+
+\begin{document}
+
+\maketitle
+
+\section*{Hashfunktion}
+
+Die \texttt{hashFunction(self, keyString)} ist eine Methode, die dazu dient, einen Hashwert für einen gegebenen Schlüsselstring zu berechnen. 
+Dabei wird jeder \texttt{char} im \texttt{keyString} durchlaufen, und der Hashwert wird durch eine Multiplikation mit der Primzahl \texttt{79} und der Addition des Unicode-Werts 
+des \texttt{char} aktualisiert. Schließlich wird der berechnete Hashwert durch die Größe der Hashtabelle modulo-dividiert, um sicherzustellen, dass er innerhalb 
+des gültigen Indexbereichs liegt.
+
+\section*{Kollisionserkennung}
+In der Methode \texttt{addStock(self, stock)} wird die Kollisionserkennung durchgeführt, um sicherzustellen, dass ein neues Element korrekt in die Hashtabelle eingefügt wird.
+Die Kollisionserkennung überprüft ob der Index bereits von einem anderen Element belegt ist. 
+Wenn eine Kollision festgestellt wird, benützen wir die Quadratische Sondierung um eine alternative Position zu finden. Die Quadratische Sondierung 
+setzt die Wahrscheinlichkeit von Kollisionen während der Sondierung herab. Dabei addieren wir eine Zahl zum Index, welche wir quadratisch erhöhen, 
+um eine freie Stelle in der Hashtabelle zu finden. 
+
+\section*{Verwaltung der Kursdaten}
+Die Erfassung von Kursdaten erfolgt durch die Methode \texttt{downloadStockData(symbol)}, welche die Daten von der Yahoo Finance API im CSV-Format herunterlädt. 
+Anschließend werden die Daten mit der Methode \texttt{importStockData(symbol)} in das System importiert. Die Speicherung der Kursdaten erfolgt mittels der Methode 
+\texttt{saveTable(fileName)}, welche die gesamte Hashtable samt Kursdaten in einer strukturierten JSON-Datei speichert. Dadurch wird eine einfache Wiederherstellung 
+der Daten ermöglicht. Umgekehrt erlaubt die Methode \texttt{loadTable(fileName)} das Laden der gespeicherten Daten aus einer JSON-Datei zurück in das System. Abschließend 
+ermöglicht die Methode \texttt{plotStockData(symbol)} die grafische Darstellung der Kursdaten einer Aktie.
+
+\section*{Löschalgorithmus}
+Die Methode \texttt{deleteStock(self, symbol)} dient dazu, ein Aktienelement aus der Hashtable zu entfernen. Zunächst wird der Index des zu löschenden Elements mithilfe der Hashfunktion 
+berechnet. Wenn das Element an diesem Index vorhanden ist, wird \texttt{foundStock} auf True gesetzt, andernfalls wird eine Quadratische Sondierung durchgeführt, um das Element zu finden. 
+Sobald das Element gefunden wurde, wird es aus der Hashtable entfernt, indem sein Wert auf \texttt{None} gesetzt wird. Falls das Element nicht gefunden wird, wird eine entsprechende Meldung ausgegeben.
+
+\section*{Aufwandsabschätzung}
+
+\end{document}
