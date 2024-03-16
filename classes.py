@@ -188,3 +188,19 @@ class Hashtable:
             writer.writerow(columnNames)
             writer.writerows(data)
 
+    def loadTable(self, fileName):
+        import_folder = "save/"
+        _csv = ".csv"
+        file_path = import_folder + fileName + _csv
+        with open(file_path, 'r') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip header
+            for row in reader:
+                index = int(row[0])
+                name = row[1]
+                wkn = row[2]
+                symbol = row[3]
+                stock = Stock(name, wkn, symbol)
+                stock.data = [row[4:]]
+                self.table[index] = stock
+        print("Table loaded from", fileName)

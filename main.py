@@ -46,8 +46,9 @@ def main():
             print("Data saved to /export")
 
         elif userInput == '7':
-            # TODO: Load hashtable from file
-            print("Implement LOAD")
+            fileName = input("Enter filename: ")
+            hashtable.loadTable(fileName)
+            print("Data loaded")
 
         elif userInput == '8':
             # Quit program
