@@ -21,11 +21,12 @@ class Hashtable:
     # Method to generate hash value from key value
     def hashFunction(self, keyString):
         # TODO: Check if this hashfunction is OK
-        keyValue = 0
+        hashValue = 0
+        primeNumber = 79
         for char in keyString:
             # ord() transfers each char of the String to an int Unicode char
-            keyValue += ord(char)
-        return keyValue % self.size
+            hashValue = (hashValue * primeNumber + ord(char))
+        return hashValue % self.size
     
     # Method to add stock to hashtable
     def addStock(self, stock):
@@ -37,7 +38,7 @@ class Hashtable:
                 return
             else:
                 index += 1
-                if index >= self.size:
+                if index == self.size:
                     break
         # If WKN does not already exist, add the new Stock to the hashtable
         # Index of new Stock gets calculated by setting the stocks WKN as the keyValue for the hash function
@@ -48,9 +49,9 @@ class Hashtable:
         # Else a collision is detected
         # TODO: Review collision handling
         else:
-            print("COLLISION DETECTED FOR KEY VALUE: ", stock.wkn)
+            print("COLLISION DETECTED FOR KEY VALUE:", stock.wkn)
             print("Alternative hash value calculated")
-            # First number of probing process declaration
+            # First number of quadrating probing process declaration
             number = 1
             while True:
                 probing_index = self.hashFunction(str(index + number**2))
@@ -64,14 +65,12 @@ class Hashtable:
                     if(number) >= self.size:
                         print("No possible index for this stock")
 
-
-
     # Method to delete stock from the hashtable
     def deleteStock(self, wkn):
         foundStock = False
         # Index of Stock to delete gets calculated
         index = self.hashFunction(wkn)
-        # If there is a stock at the index, set foundStock to ture
+        # If there is a stock at the index, set foundStock to true
         if self.table[index] is not None and self.table[index].wkn == wkn:
             foundStock = True
         # Else enter quadrating probing
@@ -91,10 +90,10 @@ class Hashtable:
                         break
         # If the stock is found, delete it
         if foundStock:
-            print("Deleted the stock at index ", index)
-            print("Name: ", self.table[index].name)
-            print("WKN: ", self.table[index].wkn)
-            print("Symbol: ", self.table[index].symbol)
+            print("Deleted the stock at index", index)
+            print("Name:", self.table[index].name)
+            print("WKN:", self.table[index].wkn)
+            print("Symbol:", self.table[index].symbol)
             self.table[index] = None
         else:
             print("No Stock with WKN", wkn, "found")
@@ -166,4 +165,26 @@ class Hashtable:
             plt.show()
         else:
             print("No stock with symbol", wkn, "found")
+
+
+    # Method to save hashtable data to csv
+    def saveTable(self, fileName):
+        columnNames = ['Index','Name', 'WKN', 'Symbol', 'Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+        data = []
+        export_folder = "export/"
+        fileNameandPath = export_folder + fileName
+        _csv = ".csv"
+
+        for index in range(self.size):
+            if self.table[index] is not None:
+                stockData = [index, self.table[index].name, self.table[index].wkn, self.table[index].symbol]
+                if self.table[index].data:
+                    for row in self.table[index].data:
+                        stockData.extend(row)
+                data.append(stockData)  
+        
+        with open(fileNameandPath + _csv, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(columnNames)
+            writer.writerows(data)
 

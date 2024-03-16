@@ -41,8 +41,9 @@ def main():
             hashtable.plotStockData(wkn)
 
         elif userInput == '6':
-            # TODO: Save hashtable to file
-            print("Implement SAVE")
+            fileName = input("Enter filename: ")
+            hashtable.saveTable(fileName)
+            print("Data saved to /export")
 
         elif userInput == '7':
             # TODO: Load hashtable from file
