@@ -21,8 +21,8 @@ def main():
 
         elif userInput == '2':
             # Delete from hashtable
-            deleteWKN = input("Enter WKN of stock to delete: ")
-            hashtable.deleteStock(deleteWKN)
+            deleteSymbol = input("Enter Symbol of stock to delete: ")
+            hashtable.deleteStock(deleteSymbol)
 
         elif userInput == '3':
             symbol = input("Enter stock symbol: ") # Symbol is needed to find the csv file
@@ -35,8 +35,8 @@ def main():
 
         elif userInput == '5':
             # TODO: Print plot
-            wkn = input("Enter WKN of stock to plot: ")
-            hashtable.plotStockData(wkn)
+            symbol = input("Enter Symbol of stock to plot: ")
+            hashtable.plotStockData(symbol)
 
         elif userInput == '6':
             fileName = input("Enter filename: ")
@@ -51,6 +51,10 @@ def main():
         elif userInput == '8':
             # Quit program
             break
+        
+        elif userInput == 'p':
+            # Print hashtable
+            print(hashtable.table)
 
         else:
             print("Invalid Input!")

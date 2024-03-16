@@ -35,23 +35,23 @@ class Hashtable:
         # Check if WKN already exists in hashtable
         index = 0;
         for i in self.table:
-            if self.table[index] is not None and self.table[index].wkn == stock.wkn:
-                print("Stock with WKN " + stock.wkn + " already exists")
+            if self.table[index] is not None and self.table[index].symbol == stock.symbol:
+                print("Stock with Symbol " + stock.symbol + " already exists")
                 return
             else:
                 index += 1
                 if index == self.size:
                     break
-        # If WKN does not already exist, add the new Stock to the hashtable
-        # Index of new Stock gets calculated by setting the stocks WKN as the keyValue for the hash function
-        index = self.hashFunction(stock.wkn)
+        # If Symbol does not already exist, add the new Stock to the hashtable
+        # Index of new Stock gets calculated by setting the stocks Symbol as the keyValue for the hash function
+        index = self.hashFunction(stock.symbol)
         # If the hashtable on the generated index is empty, add the stock to the index position of the hashtable
         if self.table[index] is None:
             self.table[index] = stock
         # Else a collision is detected
         # TODO: Review collision handling
         else:
-            print("COLLISION DETECTED FOR KEY VALUE:", stock.wkn)
+            print("COLLISION DETECTED FOR KEY VALUE:", stock.symbol)
             print("Alternative hash value calculated")
             # First number of quadrating probing process declaration
             number = 1
@@ -68,12 +68,12 @@ class Hashtable:
                         print("No possible index for this stock")
 
     # Method to delete stock from the hashtable
-    def deleteStock(self, wkn):
+    def deleteStock(self, symbol):
         foundStock = False
         # Index of Stock to delete gets calculated
-        index = self.hashFunction(wkn)
+        index = self.hashFunction(symbol)
         # If there is a stock at the index, set foundStock to true
-        if self.table[index] is not None and self.table[index].wkn == wkn:
+        if self.table[index] is not None and self.table[index].symbol == symbol:
             foundStock = True
         # Else enter quadrating probing
         else:
@@ -81,7 +81,7 @@ class Hashtable:
             while True:
                 probing_index = self.hashFunction(str(index + number**2))
                 # If the values index & wkn are equal, set foundStock to true and set index to probing_index
-                if self.table[probing_index] is not None and self.table[probing_index].wkn == wkn:
+                if self.table[probing_index] is not None and self.table[probing_index].symbol == symbol:
                     foundStock = True
                     index = probing_index
                     break
@@ -98,23 +98,19 @@ class Hashtable:
             print("Symbol:", self.table[index].symbol)
             self.table[index] = None
         else:
-            print("No Stock with WKN", wkn, "found")
+            print("No Stock with Symbol", symbol, "found")
 
     # Method to import stock data from csv file
     def importStockData(self, symbol):
-        self.downloadStockData(symbol)
         import_folder = "import/"
         _csv = ".csv"
         file_path = import_folder + symbol + _csv
-        index = None
-        for i in range(self.size):
-            if self.table[i] and self.table[i].symbol == symbol:
-                index = i
-                break
-        if index is None:
-            print("No stock with symbol", symbol, "found")
+        index = self.hashFunction(symbol) # Calculate index of stock
+        if not self.table[index] or self.table[index].symbol != symbol: # Check if stock with symbol exists
+            print("No stock with Symbol", symbol, "found")
             return
-        if self.table[index] and self.table[index].symbol == symbol: # Check if stock with wkn exists
+        self.downloadStockData(symbol)
+        if self.table[index] and self.table[index].symbol == symbol: # Check if stock with symbol exists
             with open(file_path, 'r') as file:
                 reader = csv.reader(file)
                 data_rows = list(reader)  # Read all rows into a list
@@ -189,9 +185,9 @@ class Hashtable:
                 print("No stock with search-value", searchValue, "found")
     
     # Method to plot stock data
-    def plotStockData(self, wkn):
-        index = self.hashFunction(wkn)
-        if self.table[index] and self.table[index].wkn == wkn:
+    def plotStockData(self, symbol):
+        index = self.hashFunction(symbol)
+        if self.table[index] and self.table[index].symbol == symbol:
             data = self.table[index].data
             reversed_data = data[::-1]  # Reverse the data
             dates = [row[0][5:] for row in reversed_data]
@@ -206,11 +202,12 @@ class Hashtable:
             plt.tight_layout()
             plt.show()
         else:
-            print("No stock with WKN", wkn, "found")
+            print("No stock with Symbol", symbol, "found")
 
 
     # Method to save hashtable data to csv
     def saveTable(self, fileName):
+        # TODO: SERIALISIERUNG!
         columnNames = ['Index','Name', 'WKN', 'Symbol', 'Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
         data = []
         export_folder = "save/"
