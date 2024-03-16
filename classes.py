@@ -158,31 +158,44 @@ class Hashtable:
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
-        # TODO: Improve search function if possible
-        index = 0
-        for i in self.table:
-            if self.table[index] is not None and self.table[index].name == searchValue or self.table[index] is not None and self.table[index].symbol == searchValue:
-                print("Name: ", self.table[index].name)
-                print("WKN: ", self.table[index].wkn)
-                print("Symbol: ", self.table[index].symbol)
-                print("Index: ", index)
-                
-                if self.table[index].data:
-                    print("Last data entry: ")
-                    print("Date: ", self.table[index].data[0][0])
-                    print("Open: ", self.table[index].data[0][1])
-                    print("High: ", self.table[index].data[0][2])
-                    print("Low: ", self.table[index].data[0][3])
-                    print("Close: ", self.table[index].data[0][4])
-                    print("Adj Close: ", self.table[index].data[0][5])
-                    print("Volume: ", self.table[index].data[0][6])
-                else:
-                    print("No data found for this stock.")
-                break
-            else:
-                index += 1
-            if(index == self.size):
-                print("No stock with search-value", searchValue, "found")
+        # TODO: Review search function
+        # Calculate index using hash function
+        index = self.hashFunction(searchValue)
+        
+        # Check if the stock at the calculated index matches the search value
+        if self.table[index] and (self.table[index].name == searchValue or self.table[index].symbol == searchValue):
+            stock = self.table[index]
+            self.printStockData(stock, index)
+            return
+        
+        # If the stock is not found at the calculated index, perform linear search
+        for i, stock in enumerate(self.table):
+            if stock and (stock.name == searchValue or stock.symbol == searchValue):
+                self.printStockData(stock, i)
+                return
+        
+        # If the stock is not found, print a message
+        print("No stock with name or symbol", searchValue, "found")
+
+    def printStockData(stock, index):
+        print("Name:", stock.name)
+        print("WKN:", stock.wkn)
+        print("Symbol:", stock.symbol)
+        print("Index:", index)
+        
+        if stock.data:
+            print("Last data entry:")
+            print("Date:", stock.data[0][0])
+            print("Open:", stock.data[0][1])
+            print("High:", stock.data[0][2])
+            print("Low:", stock.data[0][3])
+            print("Close:", stock.data[0][4])
+            print("Adj Close:", stock.data[0][5])
+            print("Volume:", stock.data[0][6])
+        else:
+            print("No data found for this stock.")
+
+
     
     # Method to plot stock data
     def plotStockData(self, symbol):
