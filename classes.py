@@ -3,7 +3,7 @@ import csv
 import urllib.request
 import time 
 import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
-
+import json
 
 class Stock:
     #Constructor
@@ -195,8 +195,6 @@ class Hashtable:
         else:
             print("No data found for this stock.")
 
-
-    
     # Method to plot stock data
     def plotStockData(self, symbol):
         index = self.hashFunction(symbol)
@@ -217,42 +215,43 @@ class Hashtable:
         else:
             print("No stock with Symbol", symbol, "found")
 
-
-    # Method to save hashtable data to csv
+    # Method to save hashtable data to JSON
     def saveTable(self, fileName):
-        # TODO: SERIALISIERUNG!
-        columnNames = ['Index','Name', 'WKN', 'Symbol', 'Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
         data = []
         export_folder = "save/"
-        fileNameandPath = export_folder + fileName
-        _csv = ".csv"
+        file_path = export_folder + fileName + ".json"
 
         for index in range(self.size):
             if self.table[index] is not None:
-                stockData = [index, self.table[index].name, self.table[index].wkn, self.table[index].symbol]
-                if self.table[index].data:
-                    for row in self.table[index].data:
-                        stockData.extend(row)
-                data.append(stockData)  
-        
-        with open(fileNameandPath + _csv, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(columnNames)
-            writer.writerows(data)
+                stock_data = {
+                    "Index": index,
+                    "Name": self.table[index].name,
+                    "WKN": self.table[index].wkn,
+                    "Symbol": self.table[index].symbol,
+                    "Data": self.table[index].data
+                }
+                data.append(stock_data)  
 
+        with open(file_path, 'w') as file:
+            json.dump(data, file)
+
+        print("Hashtable data saved to", file_path)
+
+    # Method to load hashtable data from JSON
     def loadTable(self, fileName):
         import_folder = "save/"
-        _csv = ".csv"
-        file_path = import_folder + fileName + _csv
+        file_path = import_folder + fileName + ".json"
+
         with open(file_path, 'r') as file:
-            reader = csv.reader(file)
-            next(reader)  # Skip header
-            for row in reader:
-                index = int(row[0])
-                name = row[1]
-                wkn = row[2]
-                symbol = row[3]
+            data = json.load(file)
+
+            for stock_data in data:
+                index = stock_data["Index"]
+                name = stock_data["Name"]
+                wkn = stock_data["WKN"]
+                symbol = stock_data["Symbol"]
                 stock = Stock(name, wkn, symbol)
-                stock.data = [row[4:]]
+                stock.data = stock_data["Data"]
                 self.table[index] = stock
-        print("Table loaded from", fileName)
+
+        print("Hashtable data loaded from", file_path)
