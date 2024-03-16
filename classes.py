@@ -1,5 +1,7 @@
 ##################### ÜBUNGSBLATT 1 #####################
 import csv
+import urllib.request
+import time 
 import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
 
 
@@ -99,12 +101,20 @@ class Hashtable:
             print("No Stock with WKN", wkn, "found")
 
     # Method to import stock data from csv file
-    def importStockData(self, wkn, symbol):
+    def importStockData(self, symbol):
+        self.downloadStockData(symbol)
         import_folder = "import/"
         _csv = ".csv"
         file_path = import_folder + symbol + _csv
-        index = self.hashFunction(wkn)  # Calculate index for the stock
-        if self.table[index] and self.table[index].wkn == wkn: # Check if stock with wkn exists
+        index = None
+        for i in range(self.size):
+            if self.table[i] and self.table[i].symbol == symbol:
+                index = i
+                break
+        if index is None:
+            print("No stock with symbol", symbol, "found")
+            return
+        if self.table[index] and self.table[index].symbol == symbol: # Check if stock with wkn exists
             with open(file_path, 'r') as file:
                 reader = csv.reader(file)
                 data_rows = list(reader)  # Read all rows into a list
@@ -120,10 +130,35 @@ class Hashtable:
                     else:
                         break
 
-            print("Imported data for", wkn)
+            print("Imported data for", symbol)
         else:
-            print("No stock with WKN", wkn, "found")
+            print("No stock with WKN", symbol, "found")
 
+    def downloadStockData(self, symbol):
+    # Get current timestamp
+        current_timestamp = int(time.time())
+        # Calculate timestamp for 32 days ago
+        period1_timestamp = current_timestamp - (30 * 24 * 60 * 60)  # 30 days in seconds
+        # Construct the URL
+        url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={period1_timestamp}&period2={current_timestamp}&interval=1d&events=history&includeAdjustedClose=true"
+        # Send GET request to download data
+        try:
+            with urllib.request.urlopen(url) as response:
+                print("Downloading data for", symbol)
+                time.sleep(1)  # Wait for 1 second to avoid sending too many requests
+                # Check if the request was successful
+                if response.status == 200:
+                    # Save data to a CSV file in the specified folder
+                    import_folder = "import/"
+                    csv_file_name = symbol + ".csv"
+                    csv_file_path = import_folder + csv_file_name
+                    with open(csv_file_path, 'wb') as csvfile:
+                        csvfile.write(response.read())
+                    print("Data saved under", csv_file_name, "in the folder", import_folder)
+                else:
+                    print("Failed to download data for", symbol)
+        except urllib.error.URLError as e:
+            print("Error:", e.reason)
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
