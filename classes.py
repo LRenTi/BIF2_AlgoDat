@@ -4,7 +4,6 @@ import urllib.request
 import time 
 import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
 import json
-import json
 
 class Stock:
     #Constructor
