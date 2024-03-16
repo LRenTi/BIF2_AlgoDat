@@ -178,6 +178,7 @@ class Hashtable:
         # If the stock is not found, print a message
         print("No stock with name or symbol", searchValue, "found")
 
+    # Method to print stock data
     def printStockData(self, stock, index):
         print("Name:", stock.name)
         print("WKN:", stock.wkn)
@@ -217,14 +218,12 @@ class Hashtable:
             print("No stock with Symbol", symbol, "found")
 
     # Method to save hashtable data to JSON
-
-    # Method to save hashtable data to JSON
     def saveTable(self, fileName):
         data = []
         export_folder = "save/"
         file_path = export_folder + fileName + ".json"
 
-        for index in range(self.size):
+        for index in range(self.size): # for loop to iterate over the hashtable
             if self.table[index] is not None:
                 stock_data = {
                     "Index": index,
@@ -234,7 +233,7 @@ class Hashtable:
                     "Data": []
                 }
                 for row in self.table[index].data:
-                    if len(row) == 7:  # Überprüfen, ob die Zeile das erwartete Format hat
+                    if len(row) == 7:  # Check if the row has 7 columns
                         stock_data["Data"].append({
                             "Date": row[0],
                             "Open": row[1],
@@ -245,7 +244,7 @@ class Hashtable:
                             "Volume": row[6]
                         })
                     else:
-                        print("Ungültiges Datenformat für Stock mit Symbol", self.table[index].symbol)
+                        print("Invalid data format for stock with symbol", self.table[index].symbol)
                 data.append(stock_data)
 
         with open(file_path, 'w') as file:
@@ -253,20 +252,20 @@ class Hashtable:
 
         print("Hashtable data saved to", file_path)
 
-
+    # Method to load hashtable data from JSON
     def loadTable(self, fileName):
             import_folder = "save/"
             file_path = import_folder + fileName + ".json"
             try:
                 with open(file_path, 'r') as file:
                     data = json.load(file)
-                    for item in data:
+                    for item in data: # for loop to iterate over the list of stocks
                         index = item["Index"]
                         name = item["Name"]
                         wkn = item["WKN"]
                         symbol = item["Symbol"]
                         stock = Stock(name, wkn, symbol)
-                        for row in item["Data"]:
+                        for row in item["Data"]: # for loop to iterate over the list of stock data
                             stock.data.append([
                                 row["Date"],
                                 row["Open"],
@@ -279,6 +278,6 @@ class Hashtable:
                         self.table[index] = stock
                     print("Hashtable data loaded from", file_path)
             except FileNotFoundError:
-                print("Die angegebene Datei wurde nicht gefunden:", file_path)
+                print("The specified file was not found:", file_path)
             except json.JSONDecodeError:
-                print("Fehler beim Decodieren der JSON-Datei:", file_path)
+                print("Error decoding the JSON file:", file_path)
