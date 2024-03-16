@@ -117,7 +117,7 @@ class Hashtable:
                         break
             print("Imported data for", wkn)
         else:
-            print("No stock with symbol", wkn, "found")
+            print("No stock with WKN", wkn, "found")
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
@@ -158,20 +158,20 @@ class Hashtable:
             plt.plot(dates, close_prices, marker='o', linestyle='-')
             plt.xlabel('Date')
             plt.ylabel('Close Price')
-            plt.title(f'Stock {wkn} Close Prices Over the Last 30 Days')
+            plt.title(f'{self.table[index].name} Stock Close Prices Over the Last 30 Days')
             plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
             plt.grid(True)
             plt.tight_layout()
             plt.show()
         else:
-            print("No stock with symbol", wkn, "found")
+            print("No stock with WKN", wkn, "found")
 
 
     # Method to save hashtable data to csv
     def saveTable(self, fileName):
         columnNames = ['Index','Name', 'WKN', 'Symbol', 'Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
         data = []
-        export_folder = "export/"
+        export_folder = "save/"
         fileNameandPath = export_folder + fileName
         _csv = ".csv"
 
