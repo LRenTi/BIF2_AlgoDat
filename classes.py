@@ -107,17 +107,23 @@ class Hashtable:
         if self.table[index] and self.table[index].wkn == wkn: # Check if stock with wkn exists
             with open(file_path, 'r') as file:
                 reader = csv.reader(file)
-                next(reader)  # Skip header
+                data_rows = list(reader)  # Read all rows into a list
+                data_rows.pop(0)  # Remove header row
+                reversed_data_rows = reversed(data_rows)  # Reverse the list of data rows
+
+                # Iterate over the reversed data rows and add them to stock data
                 count = 0
-                for row in reader:
-                    if count <= 30:
+                for row in reversed_data_rows:
+                    if count < 30:
                         self.table[index].data.append(row)
                         count += 1
                     else:
                         break
+
             print("Imported data for", wkn)
         else:
             print("No stock with WKN", wkn, "found")
+
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
@@ -152,8 +158,9 @@ class Hashtable:
         index = self.hashFunction(wkn)
         if self.table[index] and self.table[index].wkn == wkn:
             data = self.table[index].data
-            dates = [row[0][5:] for row in data]
-            close_prices = [float(row[4]) for row in data]
+            reversed_data = data[::-1]  # Reverse the data
+            dates = [row[0][5:] for row in reversed_data]
+            close_prices = [float(row[4]) for row in reversed_data]
 
             plt.plot(dates, close_prices, marker='o', linestyle='-')
             plt.xlabel('Date')
