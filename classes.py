@@ -29,7 +29,17 @@ class Hashtable:
     
     # Method to add stock to hashtable
     def addStock(self, stock):
-        # TODO If same WKN is entered twice, do NOT add
+        # Check if WKN already exists in hashtable
+        index = 0;
+        for i in self.table:
+            if self.table[index] is not None and self.table[index].wkn == stock.wkn:
+                print("Stock with WKN " + stock.wkn + " already exists")
+                return
+            else:
+                index += 1
+                if index >= self.size:
+                    break
+        # If WKN does not already exist, add the new Stock to the hashtable
         # Index of new Stock gets calculated by setting the stocks WKN as the keyValue for the hash function
         index = self.hashFunction(stock.wkn)
         # If the hashtable on the generated index is empty, add the stock to the index position of the hashtable
