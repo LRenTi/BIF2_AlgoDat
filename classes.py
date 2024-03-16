@@ -3,7 +3,7 @@ import csv
 import urllib.request
 import time 
 import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
-
+import json
 
 class Stock:
     #Constructor
@@ -158,32 +158,43 @@ class Hashtable:
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
-        # TODO: Improve search function if possible
-        index = 0
-        for i in self.table:
-            if self.table[index] is not None and self.table[index].name == searchValue or self.table[index] is not None and self.table[index].symbol == searchValue:
-                print("Name: ", self.table[index].name)
-                print("WKN: ", self.table[index].wkn)
-                print("Symbol: ", self.table[index].symbol)
-                print("Index: ", index)
-                
-                if self.table[index].data:
-                    print("Last data entry: ")
-                    print("Date: ", self.table[index].data[0][0])
-                    print("Open: ", self.table[index].data[0][1])
-                    print("High: ", self.table[index].data[0][2])
-                    print("Low: ", self.table[index].data[0][3])
-                    print("Close: ", self.table[index].data[0][4])
-                    print("Adj Close: ", self.table[index].data[0][5])
-                    print("Volume: ", self.table[index].data[0][6])
-                else:
-                    print("No data found for this stock.")
-                break
-            else:
-                index += 1
-            if(index == self.size):
-                print("No stock with search-value", searchValue, "found")
-    
+        # TODO: Review search function
+        # Calculate index using hash function
+        index = self.hashFunction(searchValue)
+        
+        # Check if the stock at the calculated index matches the search value
+        if self.table[index] and (self.table[index].name == searchValue or self.table[index].symbol == searchValue):
+            stock = self.table[index]
+            self.printStockData(stock, index)
+            return
+        
+        # If the stock is not found at the calculated index, perform linear search
+        for i, stock in enumerate(self.table):
+            if stock and (stock.name == searchValue or stock.symbol == searchValue):
+                self.printStockData(stock, i)
+                return
+        
+        # If the stock is not found, print a message
+        print("No stock with name or symbol", searchValue, "found")
+
+    def printStockData(self, stock, index):
+        print("Name:", stock.name)
+        print("WKN:", stock.wkn)
+        print("Symbol:", stock.symbol)
+        print("Index:", index)
+        
+        if stock.data:
+            print("Last data entry:")
+            print("Date:", stock.data[0][0])
+            print("Open:", stock.data[0][1])
+            print("High:", stock.data[0][2])
+            print("Low:", stock.data[0][3])
+            print("Close:", stock.data[0][4])
+            print("Adj Close:", stock.data[0][5])
+            print("Volume:", stock.data[0][6])
+        else:
+            print("No data found for this stock.")
+
     # Method to plot stock data
     def plotStockData(self, symbol):
         index = self.hashFunction(symbol)
@@ -205,41 +216,67 @@ class Hashtable:
             print("No stock with Symbol", symbol, "found")
 
 
-    # Method to save hashtable data to csv
+    # Method to save hashtable data to JSON
     def saveTable(self, fileName):
-        # TODO: SERIALISIERUNG!
-        columnNames = ['Index','Name', 'WKN', 'Symbol', 'Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
         data = []
         export_folder = "save/"
-        fileNameandPath = export_folder + fileName
-        _csv = ".csv"
+        file_path = export_folder + fileName + ".json"
 
         for index in range(self.size):
             if self.table[index] is not None:
-                stockData = [index, self.table[index].name, self.table[index].wkn, self.table[index].symbol]
-                if self.table[index].data:
-                    for row in self.table[index].data:
-                        stockData.extend(row)
-                data.append(stockData)  
-        
-        with open(fileNameandPath + _csv, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(columnNames)
-            writer.writerows(data)
+                stock_data = {
+                    "Index": index,
+                    "Name": self.table[index].name,
+                    "WKN": self.table[index].wkn,
+                    "Symbol": self.table[index].symbol,
+                    "Data": []
+                }
+                for row in self.table[index].data:
+                    if len(row) == 7:  # Überprüfen, ob die Zeile das erwartete Format hat
+                        stock_data["Data"].append({
+                            "Date": row[0],
+                            "Open": row[1],
+                            "High": row[2],
+                            "Low": row[3],
+                            "Close": row[4],
+                            "Adj Close": row[5],
+                            "Volume": row[6]
+                        })
+                    else:
+                        print("Ungültiges Datenformat für Stock mit Symbol", self.table[index].symbol)
+                data.append(stock_data)
+
+        with open(file_path, 'w') as file:
+            json.dump(data, file)
+
+        print("Hashtable data saved to", file_path)
+
 
     def loadTable(self, fileName):
-        import_folder = "save/"
-        _csv = ".csv"
-        file_path = import_folder + fileName + _csv
-        with open(file_path, 'r') as file:
-            reader = csv.reader(file)
-            next(reader)  # Skip header
-            for row in reader:
-                index = int(row[0])
-                name = row[1]
-                wkn = row[2]
-                symbol = row[3]
-                stock = Stock(name, wkn, symbol)
-                stock.data = [row[4:]]
-                self.table[index] = stock
-        print("Table loaded from", fileName)
+            import_folder = "save/"
+            file_path = import_folder + fileName + ".json"
+            try:
+                with open(file_path, 'r') as file:
+                    data = json.load(file)
+                    for item in data:
+                        index = item["Index"]
+                        name = item["Name"]
+                        wkn = item["WKN"]
+                        symbol = item["Symbol"]
+                        stock = Stock(name, wkn, symbol)
+                        for row in item["Data"]:
+                            stock.data.append([
+                                row["Date"],
+                                row["Open"],
+                                row["High"],
+                                row["Low"],
+                                row["Close"],
+                                row["Adj Close"],
+                                row["Volume"]
+                            ])
+                        self.table[index] = stock
+                    print("Hashtable data loaded from", file_path)
+            except FileNotFoundError:
+                print("Die angegebene Datei wurde nicht gefunden:", file_path)
+            except json.JSONDecodeError:
+                print("Fehler beim Decodieren der JSON-Datei:", file_path)
