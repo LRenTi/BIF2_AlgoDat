@@ -4,6 +4,7 @@ import urllib.request
 import time 
 import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
 import json
+import json
 
 class Stock:
     #Constructor
@@ -177,7 +178,7 @@ class Hashtable:
         # If the stock is not found, print a message
         print("No stock with name or symbol", searchValue, "found")
 
-    def printStockData(stock, index):
+    def printStockData(self, stock, index):
         print("Name:", stock.name)
         print("WKN:", stock.wkn)
         print("Symbol:", stock.symbol)
@@ -216,6 +217,8 @@ class Hashtable:
             print("No stock with Symbol", symbol, "found")
 
     # Method to save hashtable data to JSON
+
+    # Method to save hashtable data to JSON
     def saveTable(self, fileName):
         data = []
         export_folder = "save/"
@@ -228,30 +231,54 @@ class Hashtable:
                     "Name": self.table[index].name,
                     "WKN": self.table[index].wkn,
                     "Symbol": self.table[index].symbol,
-                    "Data": self.table[index].data
+                    "Data": []
                 }
-                data.append(stock_data)  
+                for row in self.table[index].data:
+                    if len(row) == 7:  # Überprüfen, ob die Zeile das erwartete Format hat
+                        stock_data["Data"].append({
+                            "Date": row[0],
+                            "Open": row[1],
+                            "High": row[2],
+                            "Low": row[3],
+                            "Close": row[4],
+                            "Adj Close": row[5],
+                            "Volume": row[6]
+                        })
+                    else:
+                        print("Ungültiges Datenformat für Stock mit Symbol", self.table[index].symbol)
+                data.append(stock_data)
 
         with open(file_path, 'w') as file:
             json.dump(data, file)
 
         print("Hashtable data saved to", file_path)
 
-    # Method to load hashtable data from JSON
+
     def loadTable(self, fileName):
-        import_folder = "save/"
-        file_path = import_folder + fileName + ".json"
-
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-
-            for stock_data in data:
-                index = stock_data["Index"]
-                name = stock_data["Name"]
-                wkn = stock_data["WKN"]
-                symbol = stock_data["Symbol"]
-                stock = Stock(name, wkn, symbol)
-                stock.data = stock_data["Data"]
-                self.table[index] = stock
-
-        print("Hashtable data loaded from", file_path)
+            import_folder = "save/"
+            file_path = import_folder + fileName + ".json"
+            try:
+                with open(file_path, 'r') as file:
+                    data = json.load(file)
+                    for item in data:
+                        index = item["Index"]
+                        name = item["Name"]
+                        wkn = item["WKN"]
+                        symbol = item["Symbol"]
+                        stock = Stock(name, wkn, symbol)
+                        for row in item["Data"]:
+                            stock.data.append([
+                                row["Date"],
+                                row["Open"],
+                                row["High"],
+                                row["Low"],
+                                row["Close"],
+                                row["Adj Close"],
+                                row["Volume"]
+                            ])
+                        self.table[index] = stock
+                    print("Hashtable data loaded from", file_path)
+            except FileNotFoundError:
+                print("Die angegebene Datei wurde nicht gefunden:", file_path)
+            except json.JSONDecodeError:
+                print("Fehler beim Decodieren der JSON-Datei:", file_path)
