@@ -54,7 +54,7 @@ class Hashtable:
             # First number of quadrating probing process declaration
             number = 1
             while True:
-                probing_index = self.hashFunction(str(index + number**2))
+                probing_index = index + number**2
                 # If the hashtable at the new index is empty, place stock at new index and exit loop
                 if self.table[probing_index] is None:
                     self.table[probing_index] = stock
@@ -77,7 +77,7 @@ class Hashtable:
         else:
             number = 1
             while True:
-                probing_index = self.hashFunction(str(index + number**2))
+                probing_index = index + number**2
                 # If the values index & symbol are equal, set foundStock to true and set index to probing_index
                 if self.table[probing_index] is not None and self.table[probing_index].symbol == symbol:
                     foundStock = True
