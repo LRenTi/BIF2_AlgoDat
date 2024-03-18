@@ -32,7 +32,7 @@ class Hashtable:
     # Method to add stock to hashtable
     def addStock(self, stock):
         # Check if Symbol already exists in hashtable
-        index = 0;
+        index = 0
         for i in self.table:
             if self.table[index] is not None and self.table[index].symbol == stock.symbol: # If the stock with the same symbol already exists, print a message and return
                 print("Stock with Symbol " + stock.symbol + " already exists")
