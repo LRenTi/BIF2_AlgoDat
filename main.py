@@ -14,18 +14,18 @@ def main():
             # Add stock
             name = input("Enter stock name: ")
             wkn = input("Enter stock WKN: ")
-            symbol = input("Enter stock symbol: ")
+            symbol = input("Enter stock symbol: ").upper()
             stock = classes.Stock(name, wkn, symbol)
             # Add to hashtable
             hashtable.addStock(stock)
 
         elif userInput == '2':
             # Delete from hashtable
-            deleteSymbol = input("Enter Symbol of stock to delete: ")
+            deleteSymbol = input("Enter Symbol of stock to delete: ").upper()
             hashtable.deleteStock(deleteSymbol)
 
         elif userInput == '3':
-            symbol = input("Enter stock symbol: ") # Symbol is needed to find the csv file
+            symbol = input("Enter stock symbol: ").upper() # Symbol is needed to find the csv file
             hashtable.importStockData(symbol)
 
         elif userInput == '4':
@@ -35,7 +35,7 @@ def main():
 
         elif userInput == '5':
             # TODO: Print plot
-            symbol = input("Enter Symbol of stock to plot: ")
+            symbol = input("Enter Symbol of stock to plot: ").upper()
             hashtable.plotStockData(symbol)
 
         elif userInput == '6':
