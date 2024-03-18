@@ -62,7 +62,7 @@ class Hashtable:
                 # Else add 1 to number
                 else:
                     number += 1
-                    if(number) >= self.size:
+                    if number > self.size:
                         print("No possible index for this stock")
 
     # Method to delete stock from the hashtable
@@ -86,7 +86,7 @@ class Hashtable:
                 # Else add 1 to number
                 else:
                     number += 1
-                    if(number) >= self.size:
+                    if number > self.size:
                         break
         # If the stock is found, delete it
         if foundStock:
