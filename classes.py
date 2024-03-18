@@ -34,10 +34,10 @@ class Hashtable:
         # Check if Symbol already exists in hashtable
         index = 0;
         for i in self.table:
-            if self.table[index] is not None and self.table[index].symbol == stock.symbol:
+            if self.table[index] is not None and self.table[index].symbol == stock.symbol: # If the stock with the same symbol already exists, print a message and return
                 print("Stock with Symbol " + stock.symbol + " already exists")
                 return
-            else:
+            else: # Else add 1 to index
                 index += 1
                 if index == self.size:
                     break
@@ -79,7 +79,7 @@ class Hashtable:
             while True:
                 probing_index = index + number**2
                 # If the values index & symbol are equal, set foundStock to true and set index to probing_index
-                if self.table[probing_index] is not None and self.table[probing_index].symbol == symbol:
+                if self.table[probing_index] is not None and self.table[probing_index].symbol == symbol: # If the stock with the same symbol already exists, print a message and return
                     foundStock = True
                     index = probing_index
                     break
@@ -111,10 +111,10 @@ class Hashtable:
         if not self.table[index] or self.table[index].symbol != symbol: # Check if stock with symbol exists
             print("No stock with Symbol", symbol, "found")
             return
-        if self.table[index].data is not None:
-            print("Data for", symbol, "already exists")
-            print("Deleting old data for", symbol)
-            self.table[index].data = []
+        if self.table[index].data != []: # Check if stock with symbol already has data
+                print("Data for", symbol, "already exists")
+                print("Deleting old data for", symbol)
+                self.table[index].data = [] # Delete old data
             
         self.downloadStockData(symbol)
         if self.table[index] and self.table[index].symbol == symbol: # Check if stock with symbol exists
@@ -127,7 +127,7 @@ class Hashtable:
                 # Iterate over the reversed data rows and add them to stock data
                 count = 0
                 for row in reversed_data_rows:
-                    if count <= 30:
+                    if count <= 30: # Only add the last 30 days of data
                         self.table[index].data.append(row)
                         count += 1
                     else:
@@ -141,7 +141,7 @@ class Hashtable:
     # Get current timestamp
         current_timestamp = int(time.time())
         # Calculate timestamp for 32 days ago
-        period1_timestamp = current_timestamp - (32 * 24 * 60 * 60)  # 30 days in seconds
+        period1_timestamp = current_timestamp - (32 * 24 * 60 * 60)  # 32 days in seconds
         # Construct the URL
         url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={period1_timestamp}&period2={current_timestamp}&interval=1d&events=history&includeAdjustedClose=true"
         # Send GET request to download data
@@ -155,12 +155,12 @@ class Hashtable:
                     import_folder = "import/"
                     csv_file_name = symbol + ".csv"
                     csv_file_path = import_folder + csv_file_name
-                    with open(csv_file_path, 'wb') as csvfile:
+                    with open(csv_file_path, 'wb') as csvfile: # Open the file and write the response to the file
                         csvfile.write(response.read())
                     print("Data saved under", csv_file_name, "in the folder", import_folder)
                 else:
                     print("Failed to download data for", symbol)
-        except urllib.error.URLError as e:
+        except urllib.error.URLError as e: # Catch URLError exceptions
             print("Error:", e.reason)
 
     # Method to search for specific stock in the hashtable
@@ -204,21 +204,21 @@ class Hashtable:
 
     # Method to plot stock data
     def plotStockData(self, symbol):
-        index = self.hashFunction(symbol)
-        if self.table[index] and self.table[index].symbol == symbol:
-            data = self.table[index].data
+        index = self.hashFunction(symbol) # Calculate index of stock
+        if self.table[index] and self.table[index].symbol == symbol: # Check if stock with symbol exists
+            data = self.table[index].data # Get the stock data
             reversed_data = data[::-1]  # Reverse the data
-            dates = [row[0][5:] for row in reversed_data]
-            close_prices = [float(row[4]) for row in reversed_data]
+            dates = [row[0][5:] for row in reversed_data] # Extract the date from each row and remove the year
+            close_prices = [float(row[4]) for row in reversed_data] # Extract the close price from each row and convert it to a float
 
-            plt.plot(dates, close_prices, marker='o', linestyle='-')
-            plt.xlabel('Date')
-            plt.ylabel('Close Price')
-            plt.title(f'{self.table[index].name} Stock Close Prices Over the Last 30 Days')
+            plt.plot(dates, close_prices, marker='o', linestyle='-') # Plot the close prices
+            plt.xlabel('Date') # Set x-axis label
+            plt.ylabel('Close Price') # Set y-axis label
+            plt.title(f'{self.table[index].name} Stock Close Prices Over the Last 30 Days') # Set title
             plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
-            plt.grid(True)
-            plt.tight_layout()
-            plt.show()
+            plt.grid(True) # Enable grid
+            plt.tight_layout() # Adjust the plot to fit into the figure
+            plt.show() # Show the plot
         else:
             print("No stock with Symbol", symbol, "found")
 
@@ -234,19 +234,19 @@ class Hashtable:
         file_path = export_folder + fileName + ".json"
 
         for index in range(self.size): # for loop to iterate over the hashtable
-            if self.table[index] is not None:
-                stock_data = {
-                    "Index": index,
+            if self.table[index] is not None: # Check if the index of the hashtable is not empty
+                stock_data = { # Create a dictionary for the stock data
+                    "Index": index, # Add the index of the stock to the dictionary
                     "Name": self.table[index].name,
                     "WKN": self.table[index].wkn,
                     "Symbol": self.table[index].symbol,
-                    "Data": []
+                    "Data": [] # Create an empty list for the stock data
                 }
-                for row in self.table[index].data:
+                for row in self.table[index].data:  # for loop to iterate over the list of stock data
                     if len(row) == 7:  # Check if the row has 7 columns
-                        stock_data["Data"].append({
-                            "Date": row[0],
-                            "Open": row[1],
+                        stock_data["Data"].append({ # Add the stock data to the list
+                            "Date": row[0], # Add the date to the dictionary
+                            "Open": row[1], # Add the open price to the dictionary
                             "High": row[2],
                             "Low": row[3],
                             "Close": row[4],
@@ -257,7 +257,7 @@ class Hashtable:
                         print("Invalid data format for stock with symbol", self.table[index].symbol)
                 data.append(stock_data)
 
-        with open(file_path, 'w') as file:
+        with open(file_path, 'w') as file: # Open the file and write the data to the file
             json.dump(data, file)
 
         print("Hashtable data saved to", file_path)
@@ -267,16 +267,16 @@ class Hashtable:
             import_folder = "save/"
             file_path = import_folder + fileName + ".json"
             try:
-                with open(file_path, 'r') as file:
+                with open(file_path, 'r') as file: # Open the file and read the data from the file
                     data = json.load(file)
                     for item in data: # for loop to iterate over the list of stocks
-                        index = item["Index"]
+                        index = item["Index"] # Get the index of the stock
                         name = item["Name"]
                         wkn = item["WKN"]
                         symbol = item["Symbol"]
                         stock = Stock(name, wkn, symbol)
                         for row in item["Data"]: # for loop to iterate over the list of stock data
-                            stock.data.append([
+                            stock.data.append([ # Add the stock data to the list
                                 row["Date"],
                                 row["Open"],
                                 row["High"],
