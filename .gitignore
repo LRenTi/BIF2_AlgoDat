@@ -5,3 +5,6 @@ Protokoll/protokoll.log
 Protokoll/protokoll.fdb_latexmk
 protokoll.synctex.gz
 Protokoll/protokoll.fls
+venv/
+myenv/
+my_venv/
