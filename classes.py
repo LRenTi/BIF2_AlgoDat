@@ -106,6 +106,11 @@ class Hashtable:
         if not self.table[index] or self.table[index].symbol != symbol: # Check if stock with symbol exists
             print("No stock with Symbol", symbol, "found")
             return
+        if self.table[index].data is not None:
+            print("Data for", symbol, "already exists")
+            print("Deleting old data for", symbol)
+            self.table[index].data = []
+            
         self.downloadStockData(symbol)
         if self.table[index] and self.table[index].symbol == symbol: # Check if stock with symbol exists
             with open(file_path, 'r') as file:
@@ -117,7 +122,7 @@ class Hashtable:
                 # Iterate over the reversed data rows and add them to stock data
                 count = 0
                 for row in reversed_data_rows:
-                    if count < 30:
+                    if count <= 30:
                         self.table[index].data.append(row)
                         count += 1
                     else:
@@ -131,7 +136,7 @@ class Hashtable:
     # Get current timestamp
         current_timestamp = int(time.time())
         # Calculate timestamp for 32 days ago
-        period1_timestamp = current_timestamp - (30 * 24 * 60 * 60)  # 30 days in seconds
+        period1_timestamp = current_timestamp - (32 * 24 * 60 * 60)  # 30 days in seconds
         # Construct the URL
         url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={period1_timestamp}&period2={current_timestamp}&interval=1d&events=history&includeAdjustedClose=true"
         # Send GET request to download data
