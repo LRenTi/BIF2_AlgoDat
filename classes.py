@@ -4,6 +4,7 @@ import urllib.request
 import time 
 import matplotlib.pyplot as plt # loaded in virtual environment (venv) | activate with: source venv/bin/activate (MacOS/linux) or venv\Scripts\activate (Windows)
 import json
+import os
 
 class Stock:
     #Constructor
@@ -101,6 +102,10 @@ class Hashtable:
     def importStockData(self, symbol):
         import_folder = "import/"
         _csv = ".csv"
+        
+        if not os.path.exists(import_folder): # Check if the folder exists
+            os.makedirs(import_folder) # Create the folder if it does not exist
+            
         file_path = import_folder + symbol + _csv
         index = self.hashFunction(symbol) # Calculate index of stock
         if not self.table[index] or self.table[index].symbol != symbol: # Check if stock with symbol exists
@@ -220,7 +225,12 @@ class Hashtable:
     # Method to save hashtable data to JSON
     def saveTable(self, fileName):
         data = []
+        
         export_folder = "save/"
+        
+        if not os.path.exists(export_folder): # Check if the folder exists
+            os.makedirs(export_folder) # Create the folder if it does not exist
+        
         file_path = export_folder + fileName + ".json"
 
         for index in range(self.size): # for loop to iterate over the hashtable
