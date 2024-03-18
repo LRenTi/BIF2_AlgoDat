@@ -11,7 +11,6 @@ class Stock:
         self.name = name
         self.wkn = wkn
         self.symbol = symbol
-        # TODO: Add date and prices somehow (maybe price array?)
         self.data = []
 
 class Hashtable:
@@ -22,7 +21,6 @@ class Hashtable:
 
     # Method to generate hash value from key value
     def hashFunction(self, keyString):
-        # TODO: Check if this hashfunction is OK
         hashValue = 0
         primeNumber = 79
         for char in keyString:
@@ -32,7 +30,7 @@ class Hashtable:
     
     # Method to add stock to hashtable
     def addStock(self, stock):
-        # Check if WKN already exists in hashtable
+        # Check if Symbol already exists in hashtable
         index = 0;
         for i in self.table:
             if self.table[index] is not None and self.table[index].symbol == stock.symbol:
@@ -49,7 +47,6 @@ class Hashtable:
         if self.table[index] is None:
             self.table[index] = stock
         # Else a collision is detected
-        # TODO: Review collision handling
         else:
             print("COLLISION DETECTED FOR KEY VALUE:", stock.symbol)
             print("Alternative hash value calculated")
@@ -80,7 +77,7 @@ class Hashtable:
             number = 1
             while True:
                 probing_index = self.hashFunction(str(index + number**2))
-                # If the values index & wkn are equal, set foundStock to true and set index to probing_index
+                # If the values index & symbol are equal, set foundStock to true and set index to probing_index
                 if self.table[probing_index] is not None and self.table[probing_index].symbol == symbol:
                     foundStock = True
                     index = probing_index
@@ -158,7 +155,6 @@ class Hashtable:
 
     # Method to search for specific stock in the hashtable
     def searchStock(self, searchValue):
-        # TODO: Review search function
         # Calculate index using hash function
         index = self.hashFunction(searchValue)
         

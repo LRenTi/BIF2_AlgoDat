@@ -34,7 +34,6 @@ def main():
             hashtable.searchStock(searchValue)
 
         elif userInput == '5':
-            # TODO: Print plot
             symbol = input("Enter Symbol of stock to plot: ").upper()
             hashtable.plotStockData(symbol)
 
