@@ -55,3 +55,44 @@ def calculate_statistics(root):
     sum_keys += sum_left + sum_right
     num_nodes += num_left + num_right
     return (min_key, max_key, sum_keys, num_nodes)
+
+#PART 2: SEARCHING
+
+def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
+    if mainTreeRoot is None:
+        print(subTreeRoot.key, "not found!")
+        return
+
+    nodes.append(mainTreeRoot.key)
+
+    if mainTreeRoot.key == subTreeRoot.key:
+        print(subTreeRoot.key, "found:", ", ".join(map(str, nodes)))
+        return
+
+    if subTreeRoot.key < mainTreeRoot.key:  # Corrected comparison
+        simpleSearch(mainTreeRoot.left, subTreeRoot, nodes)
+    else:
+        simpleSearch(mainTreeRoot.right, subTreeRoot, nodes)
+
+    nodes.pop()
+
+def isIdentical(mainTreeRoot, subTreeRoot):
+    if subTreeRoot is None:
+        return True
+    if mainTreeRoot is None:
+        return False
+    if mainTreeRoot.key != subTreeRoot.key:
+        return False
+    return (isIdentical(mainTreeRoot.left, subTreeRoot.left) and
+            isIdentical(mainTreeRoot.right, subTreeRoot.right))
+
+def isSubtree(mainTreeRoot, subTreeRoot):
+    if mainTreeRoot is None and subTreeRoot is None:
+        return True
+    if mainTreeRoot is None:
+        return False
+    if isIdentical(mainTreeRoot, subTreeRoot):
+        return True
+    return (isSubtree(mainTreeRoot.left, subTreeRoot) or
+            isSubtree(mainTreeRoot.right, subTreeRoot))
+
