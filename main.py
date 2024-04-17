@@ -36,7 +36,6 @@ def main():
     print("min:", min_key, "max:", max_key, "avg:", avg_key)
 
     # Wenn nur ein Eintrag im subtree ist, beginne mit Einfacher Suche
-    # Wenn nur ein Eintrag im subtree ist, beginne mit Einfacher Suche
     if len(subTreeKeys) == 1:
         t.simpleSearch(mainTreeRoot, subTreeRoot, nodes)
 
