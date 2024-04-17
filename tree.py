@@ -56,8 +56,9 @@ def calculate_statistics(root):
     num_nodes += num_left + num_right
     return (min_key, max_key, sum_keys, num_nodes)
 
-#PART 2: SEARCHING
+# PART 2: SEARCHING
 
+# Suche für nur einen Eintrag im Subtree
 def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
     if mainTreeRoot is None:
         print(subTreeRoot.key, "not found!")
@@ -69,30 +70,39 @@ def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
         print(subTreeRoot.key, "found:", ", ".join(map(str, nodes)))
         return
 
-    if subTreeRoot.key < mainTreeRoot.key:  # Corrected comparison
+    if subTreeRoot.key < mainTreeRoot.key:
         simpleSearch(mainTreeRoot.left, subTreeRoot, nodes)
     else:
         simpleSearch(mainTreeRoot.right, subTreeRoot, nodes)
 
     nodes.pop()
 
+# Suchfunktionen für Subtree-Suche
+# Checken ob Werte ident sind
 def isIdentical(mainTreeRoot, subTreeRoot):
     if subTreeRoot is None:
         return True
+    
     if mainTreeRoot is None:
         return False
+    
     if mainTreeRoot.key != subTreeRoot.key:
         return False
+    
     return (isIdentical(mainTreeRoot.left, subTreeRoot.left) and
             isIdentical(mainTreeRoot.right, subTreeRoot.right))
 
+# Checken ob Subtree ein Subtree von Maintree ist
 def isSubtree(mainTreeRoot, subTreeRoot):
     if mainTreeRoot is None and subTreeRoot is None:
         return True
+    
     if mainTreeRoot is None:
         return False
+    
     if isIdentical(mainTreeRoot, subTreeRoot):
         return True
+    
     return (isSubtree(mainTreeRoot.left, subTreeRoot) or
             isSubtree(mainTreeRoot.right, subTreeRoot))
 

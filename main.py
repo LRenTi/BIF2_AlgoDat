@@ -35,9 +35,11 @@ def main():
     print("AVL:", "yes" if is_avl else "no")
     print("min:", min_key, "max:", max_key, "avg:", avg_key)
 
+    # Wenn nur ein Eintrag im subtree ist, beginne mit Einfacher Suche
     if len(subTreeKeys) == 1:
         t.simpleSearch(mainTreeRoot, subTreeRoot, nodes)
 
+    # Ansonsten checke ob subtree ein subtree vom maintree ist
     elif t.isSubtree(mainTreeRoot, subTreeRoot):
         print("Subtree found")
     else:
