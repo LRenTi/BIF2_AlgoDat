@@ -8,11 +8,13 @@ class AVLTree:
     def __init__(self):
         self.root = None
         
-    def buildTree(self, filename):
+    def buildTree(self, filename, keys=[]):
         with open(filename, 'r') as file:
             for line in file:
                 key = int(line.strip())
+                keys.append(key)
                 self.insert(key)
+        return self.root
 
     def insert(self, key):
         self.root = self._insert(self.root, key)
@@ -58,12 +60,9 @@ class AVLTree:
         return right_child
 
     def is_avl(self):
-        node = self.root
-        if node is None:
-            return True
-        if abs(self.balance_factor(node)) > 1:
+        if self.root is None:
             return False
-        return self._is_avl(node.left) and self._is_avl(node.right)
+        return self._is_avl(self.root)
 
     def _is_avl(self, node):
         if node is None:
@@ -130,7 +129,7 @@ def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
         simpleSearch(mainTreeRoot.left, subTreeRoot, nodes)
     else:
         simpleSearch(mainTreeRoot.right, subTreeRoot, nodes)
-
+        
     nodes.pop()
 
 # Suchfunktionen für Subtree-Suche
