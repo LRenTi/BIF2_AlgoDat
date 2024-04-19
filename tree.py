@@ -7,6 +7,12 @@ class TreeNode:
 class AVLTree:
     def __init__(self):
         self.root = None
+        
+    def buildTree(self, filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                key = int(line.strip())
+                self.insert(key)
 
     def insert(self, key):
         self.root = self._insert(self.root, key)
@@ -100,10 +106,58 @@ def print_balance_factors(node):
         return
     print_balance_factors(node.left)
     print("bal({}) = {}".format(node.key, AVLTree().balance_factor(node)), end='')
-    
     if abs(AVLTree().balance_factor(node)) > 1:
         print(" (AVL violation!)")
     else:
         print()
-        
     print_balance_factors(node.right)
+
+# PART 2: SEARCHING
+
+# Suche für nur einen Eintrag im Subtree
+def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
+    if mainTreeRoot is None:
+        print(subTreeRoot.key, "not found!")
+        return
+
+    nodes.append(mainTreeRoot.key)
+
+    if mainTreeRoot.key == subTreeRoot.key:
+        print(subTreeRoot.key, "found:", ", ".join(map(str, nodes)))
+        return
+
+    if subTreeRoot.key < mainTreeRoot.key:
+        simpleSearch(mainTreeRoot.left, subTreeRoot, nodes)
+    else:
+        simpleSearch(mainTreeRoot.right, subTreeRoot, nodes)
+
+    nodes.pop()
+
+# Suchfunktionen für Subtree-Suche
+# Checken ob Werte ident sind
+def isIdentical(mainTreeRoot, subTreeRoot):
+    if subTreeRoot is None:
+        return True
+    
+    if mainTreeRoot is None:
+        return False
+    
+    if mainTreeRoot.key != subTreeRoot.key:
+        return False
+    
+    return (isIdentical(mainTreeRoot.left, subTreeRoot.left) and
+            isIdentical(mainTreeRoot.right, subTreeRoot.right))
+
+# Checken ob Subtree ein Subtree von Maintree ist
+def isSubtree(mainTreeRoot, subTreeRoot):
+    if mainTreeRoot is None and subTreeRoot is None:
+        return True
+    
+    if mainTreeRoot is None:
+        return False
+    
+    if isIdentical(mainTreeRoot, subTreeRoot):
+        return True
+    
+    return (isSubtree(mainTreeRoot.left, subTreeRoot) or
+            isSubtree(mainTreeRoot.right, subTreeRoot))
