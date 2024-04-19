@@ -26,33 +26,36 @@ class AVLTree:
             node.left = self._insert(node.left, key)
         elif key > node.key:
             node.right = self._insert(node.right, key)
-        return self.balance(node)
+        return self.balance(node) # Balance the tree or instead of balance, use the following line: return node
 
     def balance_factor(self, node):
-        return self.height(node.right) - self.height(node.left)
+        return self.height(node.right) - self.height(node.left) # Right height - Left height (Right heavy if > 0, Left heavy if < 0)
 
     def height(self, node):
         if node is None:
-            return -1
-        return max(self.height(node.left), self.height(node.right)) + 1
+            return -1 # Height of an empty node is -1
+        return max(self.height(node.left), self.height(node.right)) + 1 # Height of the node is the maximum height of its children + 1 (the node itself)
 
+    # Balancing the tree with rotations
     def balance(self, node):
-        if self.balance_factor(node) > 1:
-            if self.balance_factor(node.right) < 0:
-                node.right = self.rotate_right(node.right)
-            return self.rotate_left(node)
-        elif self.balance_factor(node) < -1:
-            if self.balance_factor(node.left) > 0:
-                node.left = self.rotate_left(node.left)
-            return self.rotate_right(node)
-        return node
+        if self.balance_factor(node) > 1: # Right heavy
+            if self.balance_factor(node.right) < 0: # Right child is left heavy
+                node.right = self.rotate_right(node.right) # Double rotation
+            return self.rotate_left(node) # Single rotation
+        elif self.balance_factor(node) < -1: # Left heavy
+            if self.balance_factor(node.left) > 0: # Left child is right heavy
+                node.left = self.rotate_left(node.left) # Double rotation
+            return self.rotate_right(node) # Single rotation
+        return node # No balancing needed
 
+    # Rotation right around node (left child becomes new root)
     def rotate_right(self, node):
         left_child = node.left
         node.left = left_child.right
         left_child.right = node
         return left_child
 
+    # Rotation left around node (right child becomes new root)
     def rotate_left(self, node):
         right_child = node.right
         node.right = right_child.left

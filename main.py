@@ -45,8 +45,6 @@ def main():
 
     # Subtree bauen
     subTreeRoot = subtree.buildTree(args.subTreeFilename, subKeys)
-    
-    print("Subtree keys:", subKeys)
 
     t.print_balance_factors(maintree.root) # Print the balance factors of the tree
     
