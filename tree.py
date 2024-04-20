@@ -137,6 +137,7 @@ def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
 
 # Suchfunktionen für Subtree-Suche
 # Checken ob Werte ident sind
+# Subtree mit Knoten dazwischen sollte jetzt gehen, keine Ahnung warum
 def isIdentical(mainTreeRoot, subTreeRoot):
     if subTreeRoot is None:
         return True
@@ -145,7 +146,8 @@ def isIdentical(mainTreeRoot, subTreeRoot):
         return False
     
     if mainTreeRoot.key != subTreeRoot.key:
-        return False
+        return (isIdentical(mainTreeRoot.left, subTreeRoot) or
+        isIdentical(mainTreeRoot.right, subTreeRoot))
     
     return (isIdentical(mainTreeRoot.left, subTreeRoot.left) and
             isIdentical(mainTreeRoot.right, subTreeRoot.right))
