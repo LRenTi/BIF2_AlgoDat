@@ -67,16 +67,15 @@ Sollte \texttt{isIdentical(mainTreeRoot, subTreeRoot)} \texttt{False} zurückgeb
     \begin{tabular}{|l|l|l|l|}
     \hline
     \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
-    \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
-    \textbf{Suchfunktion (isSubtree)} & $O(1)$ (sortiert)    & $O(\log(N))$ (sortiert)   & $O(n)$ (nicht sortiert) \\
-                                       &  & $O(n)$ (nicht sortiert) & $O(\log(n))$ (sortiert)   \\ \hline
-    \textbf{Suchfunktion (isIdentical)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
-    \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
-    \textbf{Höhenberechnung (height)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
-    \textbf{Balance-Faktor-Berechnung (balance_Factor)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
-    \textbf{Löschfunktion (deleteStock)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
-    \textbf{Löschfunktion (normales Array)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
-    \textbf{Löschfunktion (verkettete Liste)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
+    \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(log n)$                \\ \hline
+    \textbf{Suchfunktion (isSubtree)} & $O(n+m)$    & $O(nm)$             & $O(n+m) $ \\
+    \textbf{Suchfunktion (isIdentical)} & $O(n + m)$              & $O(n + m)$              & $O(n + m)$                \\ \hline
+    \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(log n)$                \\ \hline
+    \textbf{Höhenberechnung (height)} & $O(log n)$              & $O(n)$              & $O(log n)$                \\ \hline
+    \textbf{Balance-Faktor-Berechnung (balance_Factor)} & $O(log n)$              & $O(n)$              & $O(log n)$                \\ \hline
+    \textbf{Balancierung & Rotation (balance)} & $O(log n)$             & $O(n)$            & $O(log n)$
+    \textbf{Durchschnittswertermittlung (_avg_key)} & $O(n)$             & $O(n)$            & $O(n)$
+    \textbf{AVL-Überprüfung (_is_avl)} & $O(log n)$             & $O(n^2)$            & $O(n log n)$
     \end{tabular}
     \caption{Aufwandsabschätzung für verschiedene Operationen}
     \label{tab:aufwandsabschaetzung}
