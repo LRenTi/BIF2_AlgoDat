@@ -1,6 +1,5 @@
 \documentclass{article}
-\usepackage[top=3cm]{geometry}
-\usepackage[margin=1cm]{geometry}
+\usepackage[top=3cm, margin=1cm]{geometry}
 \usepackage[german]{babel}
 
 \title{Treecheck Protokoll}
@@ -12,8 +11,8 @@
 \maketitle
 
 \section*{Einfügefunktion}
-Die Methoden \texttt{insert(self, key)} & \texttt{_insert(self, node, key)} fügen neue Schlüssel in den Baum ein. \texttt{insert(self, key)} nimmt den neuen Schlüssel entgegen.
-\texttt{_insert(self, node, key)} ist die rekursive Funktion, die den neuen Schlüssel in den Baum einfügt. Hierbei wird der Schlüssel mit dem Schlüssel des aktuellen Knotens verglichen und folgendermaßen behandelt:
+Die Methoden \texttt{insert(self, key)} \& \texttt{\_insert(self, node, key)} fügen neue Schlüssel in den Baum ein. \texttt{insert(self, key)} nimmt den neuen Schlüssel entgegen.
+\texttt{\_insert(self, node, key)} ist die rekursive Funktion, die den neuen Schlüssel in den Baum einfügt. Hierbei wird der Schlüssel mit dem Schlüssel des aktuellen Knotens verglichen und folgendermaßen behandelt:
 \begin{itemize}
     \item Wenn der betrachtete Schlüssel leer ist, wird der neue Schlüssel an dieser Stelle eingefügt.
     \item Wenn der neue Schlüssel kleiner ist als der Schlüssel des aktuellen Knotens, wird der linke Nachfolger betrachtet.
@@ -21,31 +20,31 @@ Die Methoden \texttt{insert(self, key)} & \texttt{_insert(self, node, key)} füg
     \item Nach erfolgreichem Einfügen wird der Baum anhand der Funktion \texttt{def balance(self, node)} balanciert.
 \end{itemize}
 
-\section*{Balance-Faktor & Höhe}
-Der Balance-Faktor eines Knotens wird durch die Methode \texttt{height(self, node)} & \texttt{balance_factor(self, node)} berechnet. \texttt{height(self, node)} gibt die Höhe des Knotens zurück, sollte der Knoten leer sein, wird die Höhe -1 bestimmt.
-Andernfalls berechnet sich die höhe aus der maximalen Höhe der beiden Kinder des Knotens plus 1. Der Balance-Faktor wird durch die Differenz der Höhen der beiden Kinder des Knotens berechnet, dies geschieht in \texttt{balance_factor(self, node)}.
+\section*{Balance-Faktor \& Höhe}
+Der Balance-Faktor eines Knotens wird durch die Methoden \texttt{height(self, node)} \& \texttt{balance\_factor(self, node)} berechnet. \texttt{height(self, node)} gibt die Höhe des Knotens zurück, sollte der Knoten leer sein, wird die Höhe -1 bestimmt.
+Andernfalls berechnet sich die Höhe aus der maximalen Höhe der beiden Kinder des Knotens plus 1. Der Balance-Faktor wird durch die Differenz der Höhen der beiden Kinder des Knotens berechnet, dies geschieht in \texttt{balance\_factor(self, node)}.
 
-\section*{Balancierung & Rotation}
+\section*{Balancierung \& Rotation}
 Die Methode \texttt{insert(self, key)} überprüft den Balance-Faktor des angegebenen Knotens. Ist der Balance-Faktor größer als 1, bedeutet dies, dass der Baum nach rechts geneigt ist und
 eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation nach rechts ausgeführt, wenn der Balance-Faktor kleiner als -1 ist.
 \begin{itemize}
-    \item \texttt{rotate_right(self, node)} führt eine Rechtsrotation aus, dass linke Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum rechten Kind des neuen Wurzelknotens wird.
-    \item \texttt{rotate_left(self, node)} führt eine Linksrotation aus, dass rechte Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum linken Kind des neuen Wurzelknotens wird.
+    \item \texttt{rotate\_right(self, node)} führt eine Rechtsrotation aus, dass linke Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum rechten Kind des neuen Wurzelknotens wird.
+    \item \texttt{rotate\_left(self, node)} führt eine Linksrotation aus, dass rechte Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum linken Kind des neuen Wurzelknotens wird.
 \end{itemize}
 
 \section*{AVL-Überprüfung}
-\texttt{is_avl(self)} überprüft zuerst, ob der Baum existiert (also die Wurzel nicht None ist). Wenn der Baum existiert, wird die Methode \texttt{_is_avl(self, node)} aufgerufen, die rekursiv die AVL-Eigenschaften des Baumes überprüft.
+\texttt{is\_avl(self)} überprüft zuerst, ob der Baum existiert (also die Wurzel nicht None ist). Wenn der Baum existiert, wird die Methode \texttt{\_is\_avl(self, node)} aufgerufen, die rekursiv die AVL-Eigenschaften des Baumes überprüft.
 Es wird also kontrolliert, ob ein Knoten im Baum aus dem Gleichgewicht ist (Ausgleichsfaktor > 1). Wenn dies der Fall ist, wird \texttt{False} zurückgegeben, andernfalls wird \texttt{True} zurückgegeben.
 
 \section*{Durchschnittswertermittlung}
-Die Methode \texttt{_avg_key(self, node)} berechnet den Durchschnittswert der Schlüssel im Baum. Hierbei wird der Baum rekursiv durchlaufen und die Summe der Schlüsselwerte und die Anzahl der Schlüssel ermittelt.
-Diese Werte werden an die Funktion \texttt{avg_key(self)} übergeben, die den Durchschnittswert berechnet und zurückgibt.
+Die Methode \texttt{\_avg\_key(self, node)} berechnet den Durchschnittswert der Schlüssel im Baum. Hierbei wird der Baum rekursiv durchlaufen und die Summe der Schlüsselwerte und die Anzahl der Schlüssel ermittelt.
+Diese Werte werden an die Funktion \texttt{avg\_key(self)} übergeben, die den Durchschnittswert berechnet und zurückgibt.
 
 \section*{Einfache Suche}
 Die Funktion \texttt{simpleSearch(mainTreeRoot, subTreeRoot, nodes=[])} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von 1 hat. Die Funktion durchläuft den Hauptbaum rekursiv, beginnend von der Wurzel
 (\texttt{mainTreeRoot}) und sucht nach dem einzigen Knoten des Subtrees (\texttt{subTreeRoot}). Sollte der Knoten gefunden werden, wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten ausgegeben. Andernfalls wird die Suche im linken oder
 im rechten Teilbaum vom Hauptbaum fortgesetzt, je nachdem ob der gesuchte Schlüssel größer oder kleiner als der Schlüssel des aktuellen Knotens vom Hauptbaum ist.
-In \texttt{nodex=[]} wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten gespeichert. Nach erfolgreicher oder erfolgloser Suche wird die Liste wieder zurückgesetzt.
+In \texttt{nodes=[]} wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten gespeichert. Nach erfolgreicher oder erfolgloser Suche wird die Liste wieder zurückgesetzt.
 
 \section*{Subtree-Suche}
 \texttt{isSubtree(mainTreeRoot, subTreeRoot)} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von mehr als 1 hat. Die Funktion überprüft zunächst, ob (\texttt{mainTreeRoot}) und (\texttt{subTreeRoot}) (\texttt{None}) sind, in diesem Fall wird (\texttt{True} zurückgegeben).
@@ -67,18 +66,18 @@ Sollte \texttt{isIdentical(mainTreeRoot, subTreeRoot)} \texttt{False} zurückgeb
     \begin{tabular}{|l|l|l|l|}
     \hline
     \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
-    \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(log n)$                \\ \hline
+    \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Suchfunktion (isSubtree)} & $O(n+m)$    & $O(nm)$             & $O(n+m) $ \\
     \textbf{Suchfunktion (isIdentical)} & $O(n + m)$              & $O(n + m)$              & $O(n + m)$                \\ \hline
-    \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(log n)$                \\ \hline
-    \textbf{Höhenberechnung (height)} & $O(log n)$              & $O(n)$              & $O(log n)$                \\ \hline
-    \textbf{Balance-Faktor-Berechnung (balance_Factor)} & $O(log n)$              & $O(n)$              & $O(log n)$                \\ \hline
-    \textbf{Balancierung & Rotation (balance)} & $O(log n)$             & $O(n)$            & $O(log n)$
-    \textbf{Durchschnittswertermittlung (_avg_key)} & $O(n)$             & $O(n)$            & $O(n)$
-    \textbf{AVL-Überprüfung (_is_avl)} & $O(log n)$             & $O(n^2)$            & $O(n log n)$
+    \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
+    \textbf{Höhenberechnung (height)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
+    \textbf{Balance-Faktor-Berechnung (balance\_Factor)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
+    \textbf{Balancierung \& Rotation (balance)} & $O(\log n)$             & $O(n)$            & $O(\log n)$ \\ \hline
+    \textbf{Durchschnittswertermittlung (\_avg\_key)} & $O(n)$             & $O(n)$            & $O(n)$ \\ \hline
+    \textbf{AVL-Überprüfung (\_is\_avl)} & $O(\log n)$             & $O(n^2)$            & $O(n \log n)$ \\ \hline
     \end{tabular}
     \caption{Aufwandsabschätzung für verschiedene Operationen}
     \label{tab:aufwandsabschaetzung}
-    \end{table}
+\end{table}
 
 \end{document}
