@@ -52,7 +52,7 @@ Sollte nur (\texttt{mainTreeRoot}) (\texttt{None}) sein, wird automatisch (\text
 \texttt{isIdentical(mainTreeRoot, subTreeRoot)} vergleicht zwei Bäume anhand ihrer Werte und Struktur.
 \begin{itemize}
     \item \texttt{if subTreeRoot is None} überprüft, ob der Subtree leer ist, in diesem Fall wird \texttt{True} zurückgegeben.
-    \item \texttt{if mainTreeRootTreeRoot is None} überprüft, ob der Hauptbaum leer ist, in diesem Fall wird \texttt{False} zurückgegeben.
+    \item \texttt{if mainTreeRoot is None} überprüft, ob der Hauptbaum leer ist, in diesem Fall wird \texttt{False} zurückgegeben.
     \item \texttt{if mainTreeRoot.key != subTreeRoot.key} überprüft, ob die Knoten der beiden Bäume ungleich sind, in diesem Fall wird die Funktion rekursiv aufgerufen, um zu überprüfen, ob der Subtree ein Teil des linken oder rechten Teilbaums des Hauptbaum ist.
     Die \texttt{(isIdentical(mainTreeRoot.left, subTreeRoot) or isIdentical(mainTreeRoot.right, subTreeRoot))} Bedingung wird verwendet, um zu überprüfen, ob der Subtree in einem der Teilbäume des Hauptbaums vorhanden ist.
     \item \texttt{if mainTreeRoot.key == subTreeRoot.key} überprüft, ob die Knoten der beiden Bäume gleich sind, in diesem Fall wird die Funktion rekursiv aufgerufen, um die Knoten auf der linken und rechten Seite der beiden Bäume zu vergleichen.
