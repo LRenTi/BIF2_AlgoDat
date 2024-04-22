@@ -40,6 +40,10 @@ Es wird also kontrolliert, ob ein Knoten im Baum aus dem Gleichgewicht ist (Ausg
 Die Methode \texttt{\_avg\_key(self, node)} berechnet den Durchschnittswert der Schlüssel im Baum. Hierbei wird der Baum rekursiv durchlaufen und die Summe der Schlüsselwerte und die Anzahl der Schlüssel ermittelt.
 Diese Werte werden an die Funktion \texttt{avg\_key(self)} übergeben, die den Durchschnittswert berechnet und zurückgibt.
 
+\section*{Min- & Max-Berechnung}
+Die Methoden \texttt{\_min\_key(self, node)} & \texttt{\_max\_key(self, node)} funktionieren ähnlich. \texttt{\_min\_key(self, node)} durchläuft rekursive die linken Kindknoten des aktuellen Knotens, während \texttt{\_max\_key(self, node)}
+rekursiv die rechten Kindknoten durchläuft. Beide Methoden brechen ab, wenn sie keinen weiteren Knoten auf der linken bzw. rechten Seite finden - der Knoten an der aktuellen Stelle ist der Knoten mit dem größten/kleinsten Wert.
+
 \section*{Einfache Suche}
 Die Funktion \texttt{simpleSearch(mainTreeRoot, subTreeRoot, nodes=[])} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von 1 hat. Die Funktion durchläuft den Hauptbaum rekursiv, beginnend von der Wurzel
 (\texttt{mainTreeRoot}) und sucht nach dem einzigen Knoten des Subtrees (\texttt{subTreeRoot}). Sollte der Knoten gefunden werden, wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten ausgegeben. Andernfalls wird die Suche im linken oder
@@ -67,13 +71,14 @@ Sollte \texttt{isIdentical(mainTreeRoot, subTreeRoot)} \texttt{False} zurückgeb
     \hline
     \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
     \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
-    \textbf{Suchfunktion (isSubtree)} & $O(n+m)$    & $O(nm)$             & $O(n+m) $ \\
+    \textbf{Suchfunktion (isSubtree)} & $O(n+m)$    & $O(nm)$             & $O(n+m)$ \\
     \textbf{Suchfunktion (isIdentical)} & $O(n + m)$              & $O(n + m)$              & $O(n + m)$                \\ \hline
     \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Höhenberechnung (height)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Balance-Faktor-Berechnung (balance\_Factor)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Balancierung \& Rotation (balance)} & $O(\log n)$             & $O(n)$            & $O(\log n)$ \\ \hline
     \textbf{Durchschnittswertermittlung (\_avg\_key)} & $O(n)$             & $O(n)$            & $O(n)$ \\ \hline
+    \textbf{Min- \& Maxermittlung} (\_min\_key, \_max\_key) & $O(\log n)$             & $O(n)$            & $O(\log n)$ \\ \hline
     \textbf{AVL-Überprüfung (\_is\_avl)} & $O(\log n)$             & $O(n^2)$            & $O(n \log n)$ \\ \hline
     \end{tabular}
     \caption{Aufwandsabschätzung für verschiedene Operationen}
