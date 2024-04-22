@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[top=3cm]{geometry}
+\usepackage[margin=1cm]{geometry}
+\usepackage[german]{babel}
+
+\title{Treecheck Protokoll}
+\author{Lorenz Rentenberger, Samuel Hammerschmidt}
+\date{April 2024}
+
+\begin{document}
+
+\maketitle
+
+\section*{Einfügefunktion}
+Die Methoden \texttt{insert(self, key)} & \texttt{_insert(self, node, key)} fügen neue Schlüssel in den Baum ein. \texttt{insert(self, key)} nimmt den neuen Schlüssel entgegen.
+\texttt{_insert(self, node, key)} ist die rekursive Funktion, die den neuen Schlüssel in den Baum einfügt. Hierbei wird der Schlüssel mit dem Schlüssel des aktuellen Knotens verglichen und folgendermaßen behandelt:
+\begin{itemize}
+    \item Wenn der betrachtete Schlüssel leer ist, wird der neue Schlüssel an dieser Stelle eingefügt.
+    \item Wenn der neue Schlüssel kleiner ist als der Schlüssel des aktuellen Knotens, wird der linke Nachfolger betrachtet.
+    \item Wenn der neue Schlüssel größer ist als der Schlüssel des aktuellen Knotens, wird der rechte Nachfolger betrachtet.
+    \item Nach erfolgreichem Einfügen wird der Baum anhand der Funktion \texttt{def balance(self, node)} balanciert.
+\end{itemize}
+
+\section*{Balance-Faktor & Höhe}
+Der Balance-Faktor eines Knotens wird durch die Methode \texttt{height(self, node)} & \texttt{balance_factor(self, node)} berechnet. \texttt{height(self, node)} gibt die Höhe des Knotens zurück, sollte der Knoten leer sein, wird die Höhe -1 bestimmt.
+Andernfalls berechnet sich die höhe aus der maximalen Höhe der beiden Kinder des Knotens plus 1. Der Balance-Faktor wird durch die Differenz der Höhen der beiden Kinder des Knotens berechnet, dies geschieht in \texttt{balance_factor(self, node)}.
+
+\section*{Balancierung & Rotation}
+Die Methode \texttt{insert(self, key)} überprüft den Balance-Faktor des angegebenen Knotens. Ist der Balance-Faktor größer als 1, bedeutet dies, dass der Baum nach rechts geneigt ist und
+eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation nach rechts ausgeführt, wenn der Balance-Faktor kleiner als -1 ist.
+\begin{itemize}
+    \item \texttt{rotate_right(self, node)} führt eine Rechtsrotation aus, dass linke Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum rechten Kind des neuen Wurzelknotens wird.
+    \item \texttt{rotate_left(self, node)} führt eine Linksrotation aus, dass rechte Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum linken Kind des neuen Wurzelknotens wird.
+\end{itemize}
+
+\section*{AVL-Überprüfung}
+\texttt{is_avl(self)} überprüft zuerst, ob der Baum existiert (also die Wurzel nicht None ist). Wenn der Baum existiert, wird die Methode \texttt{_is_avl(self, node)} aufgerufen, die rekursiv die AVL-Eigenschaften des Baumes überprüft.
+Es wird also kontrolliert, ob ein Knoten im Baum aus dem Gleichgewicht ist (Ausgleichsfaktor > 1). Wenn dies der Fall ist, wird \texttt{False} zurückgegeben, andernfalls wird \texttt{True} zurückgegeben.
+
+\section*{Durchschnittswertermittlung}
+Die Methode \texttt{_avg_key(self, node)} berechnet den Durchschnittswert der Schlüssel im Baum. Hierbei wird der Baum rekursiv durchlaufen und die Summe der Schlüsselwerte und die Anzahl der Schlüssel ermittelt.
+Diese Werte werden an die Funktion \texttt{avg_key(self)} übergeben, die den Durchschnittswert berechnet und zurückgibt.
+
+\section*{Einfache Suche}
+Die Funktion \texttt{simpleSearch(mainTreeRoot, subTreeRoot, nodes=[])} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von 1 hat. Die Funktion durchläuft den Hauptbaum rekursiv, beginnend von der Wurzel
+(\texttt{mainTreeRoot}) und sucht nach dem einzigen Knoten des Subtrees (\texttt{subTreeRoot}). Sollte der Knoten gefunden werden, wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten ausgegeben. Andernfalls wird die Suche im linken oder
+im rechten Teilbaum vom Hauptbaum fortgesetzt, je nachdem ob der gesuchte Schlüssel größer oder kleiner als der Schlüssel des aktuellen Knotens vom Hauptbaum ist.
+In \texttt{nodex=[]} wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten gespeichert. Nach erfolgreicher oder erfolgloser Suche wird die Liste wieder zurückgesetzt.
+
+\section*{Subtree-Suche}
+\texttt{isSubtree(mainTreeRoot, subTreeRoot)} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von mehr als 1 hat. Die Funktion überprüft zunächst, ob (\texttt{mainTreeRoot}) und (\texttt{subTreeRoot}) (\texttt{None}) sind, in diesem Fall wird (\texttt{True} zurückgegeben).
+Sollte nur (\texttt{mainTreeRoot}) (\texttt{None}) sein, wird automatisch (\texttt{False}) zurückgegeben. Andernfalls wird die Funktion \texttt{isIdentical(mainTreeRoot, subTreeRoot)} aufgerufen, um die beiden Bäume zu vergleichen.
+\texttt{isIdentical(mainTreeRoot, subTreeRoot)} vergleicht zwei Bäume anhand ihrer Werte und Struktur.
+\begin{itemize}
+    \item \texttt{if subTreeRoot is None} überprüft, ob der Subtree leer ist, in diesem Fall wird \texttt{True} zurückgegeben.
+    \item \texttt{if mainTreeRootTreeRoot is None} überprüft, ob der Hauptbaum leer ist, in diesem Fall wird \texttt{False} zurückgegeben.
+    \item \texttt{if mainTreeRoot.key != subTreeRoot.key} überprüft, ob die Knoten der beiden Bäume ungleich sind, in diesem Fall wird die Funktion rekursiv aufgerufen, um zu überprüfen, ob der Subtree ein Teil des linken oder rechten Teilbaums des Hauptbaum ist.
+    Die \texttt{(isIdentical(mainTreeRoot.left, subTreeRoot) or isIdentical(mainTreeRoot.right, subTreeRoot))} Bedingung wird verwendet, um zu überprüfen, ob der Subtree in einem der Teilbäume des Hauptbaums vorhanden ist.
+    \item \texttt{if mainTreeRoot.key == subTreeRoot.key} überprüft, ob die Knoten der beiden Bäume gleich sind, in diesem Fall wird die Funktion rekursiv aufgerufen, um die Knoten auf der linken und rechten Seite der beiden Bäume zu vergleichen.
+\end{itemize}
+Sollte \texttt{isIdentical(mainTreeRoot, subTreeRoot)} \texttt{False} zurückgeben, wird \texttt{isSubtree(mainTreeRoot, subTreeRoot)} rekursiv aufgerufen, um zu überprüfen, ob der Teilbaum ein Unterbaum des linken oder rechten Teilbaums des Hauptbaums ist.
+
+\section*{Aufwandsabschätzung}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
+    \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
+    \textbf{Suchfunktion (isSubtree)} & $O(1)$ (sortiert)    & $O(\log(N))$ (sortiert)   & $O(n)$ (nicht sortiert) \\
+                                       &  & $O(n)$ (nicht sortiert) & $O(\log(n))$ (sortiert)   \\ \hline
+    \textbf{Suchfunktion (isIdentical)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
+    \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
+    \textbf{Höhenberechnung (height)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
+    \textbf{Balance-Faktor-Berechnung (balance_Factor)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
+    \textbf{Löschfunktion (deleteStock)} & $O(1)$              & $O(n)$              & $O(1)$                \\ \hline
+    \textbf{Löschfunktion (normales Array)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
+    \textbf{Löschfunktion (verkettete Liste)} & $O(1)$              & $O(n)$              & $O(n)$                \\ \hline
+    \end{tabular}
+    \caption{Aufwandsabschätzung für verschiedene Operationen}
+    \label{tab:aufwandsabschaetzung}
+    \end{table}
+
+\end{document}
