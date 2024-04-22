@@ -33,26 +33,26 @@ eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation na
 \end{itemize}
 
 \section*{AVL-Überprüfung}
-\texttt{is\_avl(self)} überprüft zuerst, ob der Baum existiert (also die Wurzel nicht None ist). Wenn der Baum existiert, wird die Methode \texttt{\_is\_avl(self, node)} aufgerufen, die rekursiv die AVL-Eigenschaften des Baumes überprüft.
-Es wird also kontrolliert, ob ein Knoten im Baum aus dem Gleichgewicht ist (Ausgleichsfaktor > 1). Wenn dies der Fall ist, wird \texttt{False} zurückgegeben, andernfalls wird \texttt{True} zurückgegeben.
+\texttt{is\_avl(self)} überprüft zuerst, ob der Baum existiert (also die Wurzel nicht \texttt{None} ist). Wenn der Baum existiert, wird die Methode \texttt{\_is\_avl(self, node)} aufgerufen, die rekursiv die AVL-Eigenschaften des Baumes überprüft.
+Es wird also kontrolliert, ob ein Knoten im Baum aus dem Gleichgewicht ist (Ausgleichsfaktor größer als 1). Wenn dies der Fall ist, wird \texttt{False} zurückgegeben, andernfalls wird \texttt{True} zurückgegeben.
 
 \section*{Durchschnittswertermittlung}
 Die Methode \texttt{\_avg\_key(self, node)} berechnet den Durchschnittswert der Schlüssel im Baum. Hierbei wird der Baum rekursiv durchlaufen und die Summe der Schlüsselwerte und die Anzahl der Schlüssel ermittelt.
 Diese Werte werden an die Funktion \texttt{avg\_key(self)} übergeben, die den Durchschnittswert berechnet und zurückgibt.
 
-\section*{Min- & Max-Berechnung}
-Die Methoden \texttt{\_min\_key(self, node)} & \texttt{\_max\_key(self, node)} funktionieren ähnlich. \texttt{\_min\_key(self, node)} durchläuft rekursive die linken Kindknoten des aktuellen Knotens, während \texttt{\_max\_key(self, node)}
+\section*{Min- \& Max-Berechnung}
+Die Methoden \texttt{\_min\_key(self, node)} \& \texttt{\_max\_key(self, node)} funktionieren ähnlich. \texttt{\_min\_key(self, node)} durchläuft rekursive die linken Kindknoten des aktuellen Knotens, während \texttt{\_max\_key(self, node)}
 rekursiv die rechten Kindknoten durchläuft. Beide Methoden brechen ab, wenn sie keinen weiteren Knoten auf der linken bzw. rechten Seite finden - der Knoten an der aktuellen Stelle ist der Knoten mit dem größten/kleinsten Wert.
 
 \section*{Einfache Suche}
-Die Funktion \texttt{simpleSearch(mainTreeRoot, subTreeRoot, nodes=[])} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von 1 hat. Die Funktion durchläuft den Hauptbaum rekursiv, beginnend von der Wurzel
-(\texttt{mainTreeRoot}) und sucht nach dem einzigen Knoten des Subtrees (\texttt{subTreeRoot}). Sollte der Knoten gefunden werden, wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten ausgegeben. Andernfalls wird die Suche im linken oder
+Die Funktion \texttt{simpleSearch(mainTreeRoot, subTreeRoot, nodes=[])} wird aufgerufen, wenn der Subtree \texttt{subtree.txt} eine Länge von 1 hat. Die Funktion durchläuft den Hauptbaum rekursiv, beginnend von der Wurzel
+\texttt{mainTreeRoot} und sucht nach dem einzigen Knoten des Subtrees \texttt{subTreeRoot}. Sollte der Knoten gefunden werden, wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten ausgegeben. Andernfalls wird die Suche im linken oder
 im rechten Teilbaum vom Hauptbaum fortgesetzt, je nachdem ob der gesuchte Schlüssel größer oder kleiner als der Schlüssel des aktuellen Knotens vom Hauptbaum ist.
 In \texttt{nodes=[]} wird der Pfad von der Wurzel des Hauptbaumes zum gesuchten Knoten gespeichert. Nach erfolgreicher oder erfolgloser Suche wird die Liste wieder zurückgesetzt.
 
 \section*{Subtree-Suche}
-\texttt{isSubtree(mainTreeRoot, subTreeRoot)} wird aufgerufen, wenn der Subtree (\texttt{subtree.txt}) eine Länge von mehr als 1 hat. Die Funktion überprüft zunächst, ob (\texttt{mainTreeRoot}) und (\texttt{subTreeRoot}) (\texttt{None}) sind, in diesem Fall wird (\texttt{True} zurückgegeben).
-Sollte nur (\texttt{mainTreeRoot}) (\texttt{None}) sein, wird automatisch (\texttt{False}) zurückgegeben. Andernfalls wird die Funktion \texttt{isIdentical(mainTreeRoot, subTreeRoot)} aufgerufen, um die beiden Bäume zu vergleichen.
+\texttt{isSubtree(mainTreeRoot, subTreeRoot)} wird aufgerufen, wenn der Subtree \texttt{subtree.txt} eine Länge von mehr als 1 hat. Die Funktion überprüft zunächst, ob \texttt{mainTreeRoot} und \texttt{subTreeRoot} \texttt{None} sind, in diesem Fall wird \texttt{True} zurückgegeben.
+Sollte nur \texttt{mainTreeRoot} \texttt{None} sein, wird automatisch \texttt{False} zurückgegeben. Andernfalls wird die Funktion \texttt{isIdentical(mainTreeRoot, subTreeRoot)} aufgerufen, um die beiden Bäume zu vergleichen.
 \texttt{isIdentical(mainTreeRoot, subTreeRoot)} vergleicht zwei Bäume anhand ihrer Werte und Struktur.
 \begin{itemize}
     \item \texttt{if subTreeRoot is None} überprüft, ob der Subtree leer ist, in diesem Fall wird \texttt{True} zurückgegeben.
