@@ -75,20 +75,20 @@ class AVLTree:
         return self._is_avl(node.left) and self._is_avl(node.right)
 
     def min_key(self):
-        node = self.root
-        if node is None:
-            return None
-        while node.left:
-            node = node.left
-        return node.key
-    
+        return self._min_key(self.root)
+
+    def _min_key(self, node):
+        if node.left is None:
+            return node.key
+        return self._min_key(node.left)
+
     def max_key(self):
-        node = self.root
-        if node is None:
-            return None
-        while node.right:
-            node = node.right
-        return node.key
+        return self._max_key(self.root)
+
+    def _max_key(self, node):
+        if node.right is None:
+            return node.key
+        return self._max_key(node.right)
 
     def avg_key(self):
         total, count = self._avg_key(self.root)
