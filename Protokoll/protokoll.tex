@@ -71,12 +71,11 @@ Sollte \texttt{isIdentical(mainTreeRoot, subTreeRoot)} \texttt{False} zurückgeb
     \hline
     \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
     \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
-    \textbf{Suchfunktion (isSubtree)} & $O(n+m)$    & $O(nm)$             & $O(n+m)$ \\
-    \textbf{Suchfunktion (isIdentical)} & $O(n + m)$              & $O(n + m)$              & $O(n + m)$                \\ \hline
-    \textbf{Einfügefunktion (insert)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
-    \textbf{Höhenberechnung (height)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
+    \textbf{Suchfunktion (isSubtree)} & $O(1)$    & $O(m*n)$             & $O(m*n)$ \\ \hline
+    \textbf{Einfügefunktion (_insert)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
+    \textbf{Höhenberechnung (height)} & $O(\log n)$              & $O(n)$              & $O(n)$                \\ \hline
     \textbf{Balance-Faktor-Berechnung (balance\_Factor)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
-    \textbf{Balancierung \& Rotation (balance)} & $O(\log n)$             & $O(n)$            & $O(\log n)$ \\ \hline
+    \textbf{Balancierung \& Rotation (balance)} & $O(\log n)$             & $O(n)$            & $O(n)$ \\ \hline
     \textbf{Durchschnittswertermittlung (\_avg\_key)} & $O(n)$             & $O(n)$            & $O(n)$ \\ \hline
     \textbf{Min- \& Maxermittlung} (\_min\_key, \_max\_key) & $O(\log n)$             & $O(n)$            & $O(\log n)$ \\ \hline
     \textbf{AVL-Überprüfung (\_is\_avl)} & $O(\log n)$             & $O(n^2)$            & $O(n \log n)$ \\ \hline
