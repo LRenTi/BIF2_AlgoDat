@@ -26,8 +26,8 @@ Andernfalls berechnet sich die Höhe aus der maximalen Höhe der beiden Kinder d
 
 \section*{Balancierung \& Rotation}
 Die Methode \texttt{insert(self, key)} überprüft den Balance-Faktor des angegebenen Knotens. Ist der Balance-Faktor größer als 1, bedeutet dies, dass der Baum nach rechts geneigt ist und
-eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation nach rechts ausgeführt, wenn der Balance-Faktor kleiner als -1 ist. Bei der Funktion \texttt{_insert(self, node, key)} wird nach dem Einfügen eines neuen Knotens der Baum balanciert, indem die Funktion \texttt{return balance(self, node)} ausgibt. Diese Funktion überprüft den Balance-Faktor des Knotens und führt gegebenenfalls eine Rotation aus.
-Wenn man dies nicht möchte kann 
+eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation nach rechts ausgeführt, wenn der Balance-Faktor kleiner als -1 ist.
+Wenn man keine Balancierung möchte kann man bei der Funktion \texttt{\_insert(self,key)} anstatt \texttt{return self.balance(node)} \texttt{return node} verwenden.
 \begin{itemize}
     \item \texttt{rotate\_right(self, node)} führt eine Rechtsrotation aus, dass linke Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum rechten Kind des neuen Wurzelknotens wird.
     \item \texttt{rotate\_left(self, node)} führt eine Linksrotation aus, dass rechte Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum linken Kind des neuen Wurzelknotens wird.
@@ -74,7 +74,7 @@ Sollte \texttt{isIdentical(mainTreeRoot, subTreeRoot)} \texttt{False} zurückgeb
     \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
     \textbf{Suchfunktion (simpleSearch)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Suchfunktion (isSubtree)} & $O(1)$    & $O(m*n)$             & $O(m*n)$ \\ \hline
-    \textbf{Einfügefunktion (_insert)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
+    \textbf{Einfügefunktion (\_insert)} & $O(1)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Höhenberechnung (height)} & $O(\log n)$              & $O(n)$              & $O(n)$                \\ \hline
     \textbf{Balance-Faktor-Berechnung (balance\_Factor)} & $O(\log n)$              & $O(n)$              & $O(\log n)$                \\ \hline
     \textbf{Balancierung \& Rotation (balance)} & $O(\log n)$             & $O(n)$            & $O(n)$ \\ \hline
