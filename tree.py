@@ -100,14 +100,14 @@ class AVLTree:
         left_total, left_count = self._avg_key(node.left)
         right_total, right_count = self._avg_key(node.right)
         total = left_total + right_total + node.key
-        count = left_count + right_count + 1
+        count = left_count + right_count + 1 # Count the the node itself and its children
         return total, count
 
 def print_balance_factors(node):
     if node is None:
         return
     print_balance_factors(node.left)
-    print("bal({}) = {}".format(node.key, AVLTree().balance_factor(node)), end='')
+    print("bal({}) = {}".format(node.key, AVLTree().balance_factor(node)), end='') # end='' to avoid newline
     if abs(AVLTree().balance_factor(node)) > 1:
         print(" (AVL violation!)")
     else:
