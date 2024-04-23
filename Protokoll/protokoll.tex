@@ -26,11 +26,13 @@ Andernfalls berechnet sich die Höhe aus der maximalen Höhe der beiden Kinder d
 
 \section*{Balancierung \& Rotation}
 Die Methode \texttt{insert(self, key)} überprüft den Balance-Faktor des angegebenen Knotens. Ist der Balance-Faktor größer als 1, bedeutet dies, dass der Baum nach rechts geneigt ist und
-eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation nach rechts ausgeführt, wenn der Balance-Faktor kleiner als -1 ist.
+eine Rotation nach links wird ausgeführt. Genau umgekehrt wird eine Rotation nach rechts ausgeführt, wenn der Balance-Faktor kleiner als -1 ist. Bei der Funktion \texttt{_insert(self, node, key)} wird nach dem Einfügen eines neuen Knotens der Baum balanciert, indem die Funktion \texttt{return balance(self, node)} ausgibt. Diese Funktion überprüft den Balance-Faktor des Knotens und führt gegebenenfalls eine Rotation aus.
+Wenn man dies nicht möchte kann 
 \begin{itemize}
     \item \texttt{rotate\_right(self, node)} führt eine Rechtsrotation aus, dass linke Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum rechten Kind des neuen Wurzelknotens wird.
     \item \texttt{rotate\_left(self, node)} führt eine Linksrotation aus, dass rechte Kind des Knotens wird der neue Wurzelknoten, während der ursprüngliche Knoten zum linken Kind des neuen Wurzelknotens wird.
 \end{itemize}
+
 
 \section*{AVL-Überprüfung}
 \texttt{is\_avl(self)} überprüft zuerst, ob der Baum existiert (also die Wurzel nicht \texttt{None} ist). Wenn der Baum existiert, wird die Methode \texttt{\_is\_avl(self, node)} aufgerufen, die rekursiv die AVL-Eigenschaften des Baumes überprüft.
