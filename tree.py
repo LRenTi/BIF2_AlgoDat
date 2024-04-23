@@ -116,7 +116,7 @@ def print_balance_factors(node):
 
 # PART 2: SEARCHING
 
-# Suche für nur einen Eintrag im Subtree
+# Suchfunktion für nur einen Eintrag im Subtree
 def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
     if mainTreeRoot is None:
         print(subTreeRoot.key, "not found!")
@@ -135,9 +135,7 @@ def simpleSearch(mainTreeRoot, subTreeRoot, nodes=[]):
         
     nodes.pop()
 
-# Suchfunktionen für Subtree-Suche
-# Checken ob Werte ident sind
-# Subtree mit Knoten dazwischen sollte jetzt gehen, keine Ahnung warum
+# Suchfunktion für Subtree-Suche
 def isSubtree(mainTreeRoot, subTreeRoot):
     if subTreeRoot is None:
         return True
