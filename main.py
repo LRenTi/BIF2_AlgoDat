@@ -1,51 +1,84 @@
 import sys
 import argparse
-import heapq
 
-# Usage python main.py (Noch umändern auf find_path filename_graph start ziel)
+class Station:
+    def __init__(self, name):
+        self.name = name
+        self.connections = []
 
-def read_graph(filename):
-    graph = {}
-    with open(filename, 'r') as file:
-        for line in file:
-            print(f"Reading line: {line.strip()}")  # Debug-Ausgabe
-            parts = line.strip().split(':')
-            if len(parts) != 2:
-                continue
-            line_name, stations_info = parts
-            stations = stations_info.strip().split('" "')
-            stations = [s.strip('"') for s in stations]
-            for i in range(0, len(stations) - 2, 2):
-                u = stations[i]
-                v = stations[i + 2]
-                weight = int(stations[i + 1])
-                if u not in graph:
-                    graph[u] = []
-                if v not in graph:
-                    graph[v] = []
-                graph[u].append((v, weight))
-                graph[v].append((u, weight))  # da der Graph ungerichtet ist
-                print(f"Added edge from {u} to {v} with weight {weight}")  # Debug-Ausgabe
-    return graph
+    def add_connection(self, connection):
+        self.connections.append(connection)
+
+class Connection:
+    def __init__(self, line, to_station, cost):
+        self.line = line
+        self.to_station = to_station
+        self.cost = cost
+
+class Graph:
+    def __init__(self):
+        self.stations = {}
+
+    def add_edge(self, line, from_station, to_station, cost):
+        if from_station not in self.stations:
+            self.stations[from_station] = Station(from_station)
+        if to_station not in self.stations:
+            self.stations[to_station] = Station(to_station)
+        
+        connection = Connection(line, self.stations[to_station], cost)
+        self.stations[from_station].add_connection(connection)
+
+    # TODO: Dijkstra implementation (Search for the shortest path)
+
 
 # Nur zur Überprüfung - nicht Teil der Lösung
 def print_graph(graph):
-    for node in graph:
-        print(f"{node}:")
-        for neighbor, weight in graph[node]:
-            print(f"  -> {neighbor} (cost: {weight})")
+    for station_name, station in graph.stations.items():
+        print(f"{station_name}:")
+        for connection in station.connections:
+            print(f"  -> {connection.to_station.name} (line: {connection.line}, cost: {connection.cost})")
     print()
-
-# TODO: Wenn read_graph bereits passt eigentlich nur mehr Dijkstra?
-
-if __name__ == "__main__":
     
+def parse_graph(filename):
+    graph = Graph()
+    with open(filename, 'r') as file:
+        for line in file:
+            parts = line.split(':')
+            line_name = parts[0].strip()
+            stations = parts[1].strip().split('"')[1::2]
+            times = list(map(int, filter(None, parts[1].strip().split('"')[2::2])))  # Filter out empty strings
+            if len(stations) != len(times) + 1:
+                print("Invalid input format.")
+                return None
+            
+            for i in range(len(stations) - 1):
+                graph.add_edge(line_name, stations[i], stations[i+1], times[i])
+    
+    return graph
+
+def main():
     # Argument parsing
     parser = argparse.ArgumentParser()
     parser.add_argument("filename_graph", help="Input filename of the Network")
-    # parser.add_argument("start", help="Input the name of the start station")
-    # parser.add_argument("end", help="Input the name of the destination station")
+    parser.add_argument("-pp", "--pretty_print", action="store_true", help="Pretty print the Edges of the Network")
+    parser.add_argument("start", nargs='?', help="Input the name of the start station")
+    parser.add_argument("end", nargs='?', help="Input the name of the destination station")
     args = parser.parse_args()
     
-    graph = read_graph(args.filename_graph)
-    print_graph(graph)
+    filename = args.filename_graph
+    start = args.start
+    end = args.end
+    
+    graph = parse_graph(filename)
+    
+    # TODO: Search for the shortest path
+    
+    if args.pretty_print:
+        print("---------- Network ----------")
+        print_graph(graph)
+        print("-----------------------------")
+    
+    # TODO: Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
+
+if __name__ == "__main__":
+    main()
