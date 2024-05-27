@@ -1,4 +1,6 @@
 import sys
+import argparse
+import heapq
 
 # Usage python main.py (Noch umändern auf find_path filename_graph start ziel)
 
@@ -37,6 +39,13 @@ def print_graph(graph):
 # TODO: Wenn read_graph bereits passt eigentlich nur mehr Dijkstra?
 
 if __name__ == "__main__":
-    filename_graph = "Wiener_Verkehrsnetz.txt"
-    graph = read_graph(filename_graph)
+    
+    # Argument parsing
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename_graph", help="Input filename of the Network")
+    # parser.add_argument("start", help="Input the name of the start station")
+    # parser.add_argument("end", help="Input the name of the destination station")
+    args = parser.parse_args()
+    
+    graph = read_graph(args.filename_graph)
     print_graph(graph)
