@@ -27,6 +27,8 @@ class Graph:
         
         connection = Connection(line, self.stations[to_station], cost)
         self.stations[from_station].add_connection(connection)
+        connection = Connection(line, self.stations[from_station], cost)
+        self.stations[to_station].add_connection(connection)
 
     # TODO: Dijkstra implementation (Search for the shortest path)
 
@@ -37,7 +39,11 @@ def print_graph(graph):
         print(f"{station_name}:")
         for connection in station.connections:
             print(f"  -> {connection.to_station.name} (line: {connection.line}, cost: {connection.cost})")
-    print()
+
+def print_station(station):
+    print(f"{station.name}:")
+    for connection in station.connections:
+        print(f"  -> {connection.to_station.name} (line: {connection.line}, cost: {connection.cost})")
     
 def parse_graph(filename):
     graph = Graph()
@@ -73,10 +79,19 @@ def main():
     
     # TODO: Search for the shortest path
     
-    if args.pretty_print:
-        print("---------- Network ----------")
-        print_graph(graph)
-        print("-----------------------------")
+    if args.pretty_print and graph is not None:
+        if start is not None:
+            for station_name, station in graph.stations.items():
+                if station_name == start:
+                    selStation = station
+                    break
+            print("---------- Station ----------")
+            print_station(selStation)
+            print("-----------------------------")
+        else:
+            print("---------- Network ----------")
+            print_graph(graph)
+            print("-----------------------------")
     
     # TODO: Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
 
