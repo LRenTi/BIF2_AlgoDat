@@ -131,7 +131,7 @@ def main():
     graph = parse_graph(filename)
     
     if args.pretty_print and graph is not None:
-        if start is not None:
+        if start is not None and end is None:
             for station_name, station in graph.stations.items():
                 if station_name == start:
                     selStation = station
@@ -141,7 +141,7 @@ def main():
             print("-----------------------------")
     
     # Search for the shortest path
-    if start is None and end is None:
+    if start is not None and end is not None:
         path, distance = graph.dijkstra(start, end)
 
         # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
