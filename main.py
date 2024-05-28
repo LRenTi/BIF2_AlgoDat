@@ -139,19 +139,16 @@ def main():
             print("---------- Station ----------")
             print_station(selStation)
             print("-----------------------------")
-        else:
-            print("---------- Network ----------")
-            print_graph(graph)
-            print("-----------------------------")
     
     # Search for the shortest path
-    path, distance = graph.dijkstra(start, end)
+    if start is None and end is None:
+        path, distance = graph.dijkstra(start, end)
 
-    # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
-    print_shortest_path(path, distance, start, end)
-    # TODO: Looks good, only one weird line switch from "Kagraner Platz" -> Migerkastrasse
-    # Should be Quellenstrasse / Favoritenstrasse --> Quellenplatz (NO SWITCH) --> ...
-    # Maybe not noticeable :P
+        # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
+        print_shortest_path(path, distance, start, end)
+        # TODO: Looks good, only one weird line switch from "Kagraner Platz" -> Migerkastrasse
+        # Should be Quellenstrasse / Favoritenstrasse --> Quellenplatz (NO SWITCH) --> ...
+        # Maybe not noticeable :P
 
 
 if __name__ == "__main__":
