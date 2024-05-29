@@ -136,9 +136,13 @@ def main():
                 if station_name == start:
                     selStation = station
                     break
-            print("---------- Station ----------")
-            print_station(selStation)
-            print("-----------------------------")
+                
+            try:
+                print("---------- Station ----------")
+                print_station(selStation)
+                print("-----------------------------")
+            except:
+                print("Station not found.")
     
     # Search for the shortest path
     if start is not None and end is not None:
