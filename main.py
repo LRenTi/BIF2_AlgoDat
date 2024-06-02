@@ -146,13 +146,14 @@ def main():
     
     # Search for the shortest path
     if start is not None and end is not None:
+        # Check if the start and end stations exist in the graph
+        if start not in graph.stations or end not in graph.stations:
+            print("Shortest Distance calculation not possible, one or more stations not found in textfile")
+            return
         path, distance = graph.dijkstra(start, end)
 
         # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
         print_shortest_path(path, distance, start, end)
-        # TODO: Looks good, only one weird line switch from "Kagraner Platz" -> Migerkastrasse
-        # Should be Quellenstrasse / Favoritenstrasse --> Quellenplatz (NO SWITCH) --> ...
-        # Maybe not noticeable :P
 
 
 if __name__ == "__main__":

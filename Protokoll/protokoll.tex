@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[top=3cm, margin=1cm]{geometry}
+\usepackage[german]{babel}
+
+\title{Graphen Protokoll}
+\author{Lorenz Rentenberger, Samuel Hammerschmidt}
+\date{Juni 2024}
+
+\begin{document}
+
+\maketitle
+
+\section*{Kantenerstellung}
+Die Methode \texttt{add\_edge(self, line, from\_station, to\_station, cost)} erstellt eine Kante zwischen zwei Stationen. Als erstes, überprüft die Methode, ob die Stationen bereits im Graph enthalten sind. Ist dies nicht der Fall, wird eine neue Station erstellt.
+Danach wird die Verbindung zwischen den beiden Stationen generiert, die Kosten der Verbindung werden als Gewicht der Kante gesetzt. Die Kante wird dann in die Adjazenzliste der beiden Stationen eingefügt.
+
+\section*{Dijkstra-Algorithmus}
+\texttt{dijkstra(self, start, end)} berechnet den kürzesten Weg zwischen zwei Stationen, die vom Benutzer gewählt werden. Zuerst initialisiert die Methode die kürzesten Distanzen als \texttt{infinity} für alle Stationen im Graphen und die vorherigen Stationen \texttt{previous\_stations} werden auf \texttt{None} gesetzt.
+Die Distanz von der Startstation wird auf 0 gesetzt. Danach erstellt die Methode ein Set von nicht-besuchten Stationen, die zunächst alle Stationen des Graphen beinhaltet. Als nächstes betritt die Methode eine Schleife, die so lange läuft, solange noch nicht alle Stationen besucht wurden. In jeder Iteration wird die kürzeste Distanz zur nächsten, unbesuchten Station gewählt - diese Station wird dann aus dem \texttt{unvisited} Set entfernt.
+Sollte die aktuelle Station die Endstation sein, wird der Pfad rekonstruiert, indem von der Zielstation aus rückwärts durch die vorherigen Stationen iteriert wird. Die Gesamtkosten bzw. Fahrzeit des Pfades werden berechnet und zurückgegeben.
+Wenn die aktuelle Station nicht die Endstation ist, aktualisiert die Methode die kürzesten Distanzen und die vorherigen Stationen für alle Stationen, die von der aktuellen Station erreicht werden können. Sollte jede Station besucht werden, bevor die Endstation erreicht wird, wird \texttt{None} und \texttt{infinity} zurückgegeben.
+
+\section*{Aufwandsabschätzung}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
+    \textbf{Kürzester Pfad (dijkstra)} & $O((V + E) log V)$              & $O((V^2) log V)$              & $O((V + E) log V)$                \\ \hline
+    \end{tabular}
+    \caption{Aufwandsabschätzung für verschiedene Operationen}
+    \label{tab:aufwandsabschaetzung}
+\end{table}
+
+\end{document}
