@@ -1,5 +1,7 @@
 import sys
 import argparse
+import heapq
+import time
 
 class Station:
     def __init__(self, name):
@@ -117,6 +119,7 @@ def print_shortest_path(path, distance, start, end):
 
 def main():
     # Argument parsing
+    total_start_time = time.time()
     parser = argparse.ArgumentParser()
     parser.add_argument("filename_graph", help="Input filename of the Network")
     parser.add_argument("-pp", "--pretty_print", action="store_true", help="Pretty print the Edges of the Network")
@@ -128,7 +131,9 @@ def main():
     start = args.start
     end = args.end
     
+    parse_start_time = time.time()
     graph = parse_graph(filename)
+    parse_end_time = time.time()
     
     if args.pretty_print and graph is not None:
         if start is not None and end is None:
@@ -150,11 +155,21 @@ def main():
         if start not in graph.stations or end not in graph.stations:
             print("Shortest Distance calculation not possible, one or more stations not found in textfile")
             return
+        start_time = time.time()
         path, distance = graph.dijkstra(start, end)
+        end_time = time.time()
 
         # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
         print_shortest_path(path, distance, start, end)
-
+        print()
+        total_end_time = time.time()
+        
+        parse_elapsed_time = (parse_end_time - parse_start_time)*1000
+        dj_elapsed_time = (end_time - start_time)*1000
+        total_elapsed_time = (total_end_time - total_start_time)*1000
+        print("Laufzeit des Parsen: {:.2f} ms".format(parse_elapsed_time))
+        print("Laufzeit des Dijkstra-Algorithmus: {:.2f} ms".format(dj_elapsed_time))
+        print("Gesamtlaufzeit: {:.2f} ms".format(total_elapsed_time))
 
 if __name__ == "__main__":
     main()
