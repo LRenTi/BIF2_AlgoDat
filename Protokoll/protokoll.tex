@@ -20,6 +20,10 @@ Die Distanz von der Startstation wird auf 0 gesetzt. Danach erstellt die Methode
 Sollte die aktuelle Station die Endstation sein, wird der Pfad rekonstruiert, indem von der Zielstation aus rückwärts durch die vorherigen Stationen iteriert wird. Die Gesamtkosten bzw. Fahrzeit des Pfades werden berechnet und zurückgegeben.
 Wenn die aktuelle Station nicht die Endstation ist, aktualisiert die Methode die kürzesten Distanzen und die vorherigen Stationen für alle Stationen, die von der aktuellen Station erreicht werden können. Sollte jede Station besucht werden, bevor die Endstation erreicht wird, wird \texttt{None} und \texttt{infinity} zurückgegeben.
 
+\section*{Print-Funktion}
+Die Methode \texttt{print\_shortest\_path(path, distance, start, end)} gibt den kürzesten Pfad zwischen zwei Stationen in der Konsole aus. Die Argumente \texttt{path} (Liste der durchlaufenen Stationen) und \texttt{distance} (Gesamtfahrzeit /-kosten) werden vom Dijkstra-Algorithmus zurückgegeben. Bei jedem Durchlauf wird die aktuelle Station der \texttt{path} Liste ausgegeben. Danach wird die Linie der aktuellen Station gespeichert. Wenn sich die Linie an der nächsten Station ändert, wird der Schritt zum Umsteigen ausgegeben.
+Am Ende wird die Gesamtfahrzeit bzw. die Gesamtkosten des Pfades ausgegeben.
+
 \section*{Aufwandsabschätzung}
 
 \begin{table}[h]
@@ -28,6 +32,7 @@ Wenn die aktuelle Station nicht die Endstation ist, aktualisiert die Methode die
     \hline
     \textbf{Operation}      & \textbf{Best Case} & \textbf{Worst Case} & \textbf{Average Case} \\ \hline
     \textbf{Kürzester Pfad (dijkstra)} & $O((V + E) log V)$              & $O((V^2) log V)$              & $O((V + E) log V)$                \\ \hline
+    \textbf{Pfad ausdrucken (print_shortest_path)} & $O(n)$              & $O(n)$              & $O(n)$                \\ \hline
     \end{tabular}
     \caption{Aufwandsabschätzung für verschiedene Operationen}
     \label{tab:aufwandsabschaetzung}
