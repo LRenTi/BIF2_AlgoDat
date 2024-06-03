@@ -40,7 +40,7 @@ class Graph:
         # Stores shortest distance from start to each station, initialized with infinity for all stations
         shortest_distances = {station: float('infinity') for station in self.stations.values()}
 
-        # Stores the previous station for each station in the shortest path from the start station, initialized with None for all stations
+        # Stores the previous station for each station in the shortest path from the start station, initialized with None for all stations, as none have been visited yet
         previous_stations = {station: None for station in self.stations.values()} 
 
         # Distance to the start station is initialized as 0
@@ -53,6 +53,7 @@ class Graph:
         # Search for the shortest path
         while unvisited_stations:
             # Remove and return the station with the shortest distance from the priority queue
+            # Always at first position of the heap (min-heap)
             # Ensures that the station with the shortest distance is visited next
             current_distance, current_station = heapq.heappop(unvisited_stations)
 
@@ -87,6 +88,8 @@ class Graph:
                     # Update the previous station for the connected station
                     previous_stations[connection.to_station] = current_station
                     # Add the updated station to the priority queue
+                    # Pushes multiple elements to the heap
+                    # Final element is the station with the shortest distance
                     heapq.heappush(unvisited_stations, (distance, connection.to_station))
 
         # If no path was found
