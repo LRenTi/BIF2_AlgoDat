@@ -38,4 +38,25 @@ Am Ende wird die Gesamtfahrzeit bzw. die Gesamtkosten des Pfades ausgegeben.
     \label{tab:aufwandsabschaetzung}
 \end{table}
 
+\newpage
+
+\section*{Experiment}
+In diesem Experiment haben wir die durchschnittliche Zeit gemessen, die der Dijkstra-Algorithmus benötigt, um den kürzesten Weg zwischen zwei Stationen in verschiedenen Graphen mit verschienden Längen zu finden. Die Ergebnisse sind in Tabelle \ref{tab:experiment} dargestellt.
+Die angegebenen Zeiten sind Durchschnittswerte von 10.000 Durchläufen. \\ \\
+Um einen besseren Vergleich zu erhalten haben wir die Anzahl der Stationen variiert. Die Strecke ist immer dieselbe. \\
+\textbf{Wiener Strecke: } $Ottakring \rightarrow Kagraner Platz$ \\
+\textbf{Londoner Strecke: } $Bank \rightarrow High Barnet$ \\
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        \textbf{Graph} & \textbf{Länge 3} & \textbf{Länge 7} & \textbf{Länge 10} & \textbf{Länge 15} & \textbf{Länge 20} \\ \hline
+        \textbf{Wien (450 Stationen)} & 0.071 ms & 0.106 ms & 0.158 ms & 0.356 ms & 0.547 ms \\ \hline
+        \textbf{Wien (90 Stationen, U-Bahn)} & 0.015 ms & 0.018 ms & 0.027 ms & 0.061 ms & 0.086 ms \\ \hline
+        \textbf{London (204 Stationen)} & 0.036 ms & 0.096 ms & 0.143 ms & 0.202 ms & 0.229 ms \\ \hline
+    \end{tabular}
+    \caption{Experiment}
+    \label{tab:experiment}
+\end{table}
 \end{document}
