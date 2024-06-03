@@ -32,8 +32,9 @@ class Graph:
         
         connection = Connection(line, self.stations[to_station], cost)
         self.stations[from_station].add_connection(connection)
-        connection = Connection(line, self.stations[from_station], cost)
-        self.stations[to_station].add_connection(connection)
+        # Verlängert nur die Laufzeit
+        #connection = Connection(line, self.stations[from_station], cost)
+        #self.stations[to_station].add_connection(connection)
 
     def dijkstra(self, start, end):
         # Stores shortest distance from start to each station, initialized with infinity for all stations
