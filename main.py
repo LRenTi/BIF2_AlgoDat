@@ -174,9 +174,9 @@ def main():
         parse_elapsed_time = (parse_end_time - parse_start_time)*1000
         dj_elapsed_time = (end_time - start_time)*1000
         total_elapsed_time = (total_end_time - total_start_time)*1000
-        print("Laufzeit des Parsen: {:.2f} ms".format(parse_elapsed_time))
-        print("Laufzeit des Dijkstra-Algorithmus: {:.2f} ms".format(dj_elapsed_time))
-        print("Gesamtlaufzeit: {:.2f} ms".format(total_elapsed_time))
+        print("Laufzeit des Parsen: {:.6f} ms".format(parse_elapsed_time))
+        print("Laufzeit des Dijkstra-Algorithmus: {:.6f} ms".format(dj_elapsed_time))
+        print("Gesamtlaufzeit: {:.6f} ms".format(total_elapsed_time))
 
 if __name__ == "__main__":
     main()
