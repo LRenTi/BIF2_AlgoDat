@@ -1,6 +1,7 @@
 import sys
 import argparse
 import heapq
+import time
 #from collections import defaultdict
 
 class Station:
@@ -157,10 +158,14 @@ def main():
         if start not in graph.stations or end not in graph.stations:
             print("Shortest Distance calculation not possible, one or more stations not found in textfile")
             return
+        start_time = time.perf_counter()
         path, distance = graph.dijkstra(start, end)
+        end_time = time.perf_counter()
+        elapsed_time = (end_time - start_time) * 1000  # time in milliseconds
 
         # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
         print_shortest_path(path, distance, start, end)
+        print("Time taken: {:.6f} milliseconds".format(elapsed_time))
 
 
 if __name__ == "__main__":
