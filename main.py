@@ -119,7 +119,7 @@ def print_shortest_path(path, distance, start, end):
 
 def main():
     # Argument parsing
-    total_start_time = time.time()
+    total_start_time = time.perf_counter()
     parser = argparse.ArgumentParser()
     parser.add_argument("filename_graph", help="Input filename of the Network")
     parser.add_argument("-pp", "--pretty_print", action="store_true", help="Pretty print the Edges of the Network")
@@ -131,9 +131,9 @@ def main():
     start = args.start
     end = args.end
     
-    parse_start_time = time.time()
+    parse_start_time = time.perf_counter()
     graph = parse_graph(filename)
-    parse_end_time = time.time()
+    parse_end_time = time.perf_counter()
     
     if args.pretty_print and graph is not None:
         if start is not None and end is None:
@@ -155,14 +155,14 @@ def main():
         if start not in graph.stations or end not in graph.stations:
             print("Shortest Distance calculation not possible, one or more stations not found in textfile")
             return
-        start_time = time.time()
+        start_time = time.perf_counter()
         path, distance = graph.dijkstra(start, end)
-        end_time = time.time()
+        end_time = time.perf_counter()
 
         # Output of the shortest path (Which stations to take, which lines to use, where to transfer, total cost)
         print_shortest_path(path, distance, start, end)
         print()
-        total_end_time = time.time()
+        total_end_time = time.perf_counter()
         
         parse_elapsed_time = (parse_end_time - parse_start_time)*1000
         dj_elapsed_time = (end_time - start_time)*1000
