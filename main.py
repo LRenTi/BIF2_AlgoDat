@@ -50,7 +50,7 @@ class Graph:
         unvisited_stations = [(0, self.stations[start])]
 
         # Search for the shortest path
-        while unvisited_stations:
+        while unvisited_stations: # O-Notation O(V) where V is the number of vertices
             # Remove and return the station with the shortest distance from the priority queue
             # Always at first position of the heap (min-heap)
             # Ensures that the station with the shortest distance is visited next
@@ -77,7 +77,7 @@ class Graph:
                 return path, shortest_distances[self.stations[end]]  # Return the path and the total cost
 
             # For each connection of the current station, update the shortest distance to the connected station
-            for connection in current_station.connections:
+            for connection in current_station.connections: # O-Notation O(E) where E is the number of edges
                 # Calculate the distance to the connected station
                 distance = shortest_distances[current_station] + connection.cost
                 # Check if the new distance is shorter than the previously stored distance to the connected station
@@ -89,7 +89,7 @@ class Graph:
                     # Add the updated station to the priority queue
                     # Pushes multiple elements to the heap
                     # Final element is the station with the shortest distance
-                    heapq.heappush(unvisited_stations, (distance, connection.to_station))
+                    heapq.heappush(unvisited_stations, (distance, connection.to_station)) # O(log(V)) where V is the number of vertices
 
         # If no path was found
         return None, float('infinity')
