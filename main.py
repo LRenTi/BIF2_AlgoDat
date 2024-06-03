@@ -37,40 +37,54 @@ class Graph:
         self.stations[to_station].add_connection(connection)
 
     def dijkstra(self, start, end):
-        # Initialize the shortest distances and previous stations
-        shortest_distances = {station: float('infinity') for station in self.stations.values()} # Initialize with infinity
-        previous_stations = {station: None for station in self.stations.values()} # Initialize with None
-        shortest_distances[self.stations[start]] = 0 # Start station has distance 0
+        # Stores shortest distance from start to each station, initialized with infinity for all stations
+        shortest_distances = {station: float('infinity') for station in self.stations.values()}
 
-        # Use a priority queue for the unvisited stations, with the distance as the priority
-        unvisited_stations = [(0, self.stations[start])] # Start station has distance 0
+        # Stores the previous station for each station in the shortest path from the start station, initialized with None for all stations
+        previous_stations = {station: None for station in self.stations.values()} 
+
+        # Distance to the start station is initialized as 0
+        shortest_distances[self.stations[start]] = 0
+
+        # Priority queue (min-heap) to store the unvisited stations with the shortest distance from the start station
+        # Each element is a tuple of distance and station (0 and start station for the start station)
+        unvisited_stations = [(0, self.stations[start])]
 
         # Search for the shortest path
-        while unvisited_stations: # O-Notation O(V) with V = number of stations
-            # Use heapq to extract the station with the minimum distance
-            current_distance, current_station = heapq.heappop(unvisited_stations) # O-Notation O(log V) with V = number of stations
+        while unvisited_stations:
+            # Remove and return the station with the shortest distance from the priority queue
+            # Ensures that the station with the shortest distance is visited next
+            current_distance, current_station = heapq.heappop(unvisited_stations)
 
             # Check if the destination station is reached
             if current_station == self.stations[end]: 
                 # Reconstruct the path
                 path = []
                 line = None
-                while previous_stations[current_station] is not None: # O-Notation O(V) with V = number of stations
-                    for connection in previous_stations[current_station].connections: # O-Notation O(E) with E = number of connections
+                # Traverse through previous stations from end to start
+                while previous_stations[current_station] is not None:
+                    # Find the used line for the connection
+                    for connection in previous_stations[current_station].connections:
                         if connection.to_station == current_station:
                             line = connection.line
                             break
-                    path.append((line, current_station.name))  # Line of the connection
-                    current_station = previous_stations[current_station]  # Move to the previous station
-                path.append((None, start))  # Start station has no line
-                path.reverse()  # Reverse the path, O-Notation O(V) with V = number of stations
+                    # Add the currenct line and station to the path
+                    path.append((line, current_station.name))
+                    # Move to the previous station
+                    current_station = previous_stations[current_station]
+                path.append((None, start))  # Add the start station to the path (without line)
+                path.reverse()  # Reverse the path to start from the start station
                 return path, shortest_distances[self.stations[end]]  # Return the path and the total cost
 
-            # Update the shortest distances and previous stations
+            # For each connection of the current station, update the shortest distance to the connected station
             for connection in current_station.connections:
+                # Calculate the distance to the connected station
                 distance = shortest_distances[current_station] + connection.cost
+                # Check if the new distance is shorter than the previously stored distance to the connected station
                 if distance < shortest_distances[connection.to_station]:
+                    # Update the shortest distance to the connected station
                     shortest_distances[connection.to_station] = distance
+                    # Update the previous station for the connected station
                     previous_stations[connection.to_station] = current_station
                     # Add the updated station to the priority queue
                     heapq.heappush(unvisited_stations, (distance, connection.to_station))
