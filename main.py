@@ -2,6 +2,7 @@ import sys
 import argparse
 import heapq
 import time
+#from collections import defaultdict
 
 class Station:
     def __init__(self, name):
@@ -10,6 +11,9 @@ class Station:
 
     def add_connection(self, connection):
         self.connections.append(connection)
+
+    def __lt__(self, other):
+        return self.name < other.name
 
 class Connection:
     def __init__(self, line, to_station, cost):
@@ -32,34 +36,34 @@ class Graph:
         connection = Connection(line, self.stations[from_station], cost)
         self.stations[to_station].add_connection(connection)
 
-
-    # Dijkstra implementation (Search for the shortest path)
     def dijkstra(self, start, end):
         # Initialize the shortest distances and previous stations
         shortest_distances = {station: float('infinity') for station in self.stations.values()} # Initialize with infinity
         previous_stations = {station: None for station in self.stations.values()} # Initialize with None
         shortest_distances[self.stations[start]] = 0 # Start station has distance 0
-        unvisited_stations = set(self.stations.values()) # Set of all stations
+
+        # Use a priority queue for the unvisited stations, with the distance as the priority
+        unvisited_stations = [(0, self.stations[start])] # Start station has distance 0
 
         # Search for the shortest path
-        while unvisited_stations:
-            current_station = min(unvisited_stations, key=lambda station: shortest_distances[station]) # Get the station with the shortest distance
-            unvisited_stations.remove(current_station) # Remove the current station from the set of unvisited stations
+        while unvisited_stations: # O-Notation O(V) with V = number of stations
+            # Use heapq to extract the station with the minimum distance
+            current_distance, current_station = heapq.heappop(unvisited_stations) # O-Notation O(log V) with V = number of stations
 
             # Check if the destination station is reached
             if current_station == self.stations[end]: 
                 # Reconstruct the path
                 path = []
                 line = None
-                while previous_stations[current_station] is not None:
-                    for connection in previous_stations[current_station].connections:
+                while previous_stations[current_station] is not None: # O-Notation O(V) with V = number of stations
+                    for connection in previous_stations[current_station].connections: # O-Notation O(E) with E = number of connections
                         if connection.to_station == current_station:
                             line = connection.line
                             break
                     path.append((line, current_station.name))  # Line of the connection
                     current_station = previous_stations[current_station]  # Move to the previous station
                 path.append((None, start))  # Start station has no line
-                path.reverse()  # Reverse the path
+                path.reverse()  # Reverse the path, O-Notation O(V) with V = number of stations
                 return path, shortest_distances[self.stations[end]]  # Return the path and the total cost
 
             # Update the shortest distances and previous stations
@@ -68,6 +72,8 @@ class Graph:
                 if distance < shortest_distances[connection.to_station]:
                     shortest_distances[connection.to_station] = distance
                     previous_stations[connection.to_station] = current_station
+                    # Add the updated station to the priority queue
+                    heapq.heappush(unvisited_stations, (distance, connection.to_station))
 
         # If no path was found
         return None, float('infinity')
@@ -155,6 +161,7 @@ def main():
         if start not in graph.stations or end not in graph.stations:
             print("Shortest Distance calculation not possible, one or more stations not found in textfile")
             return
+        start_time = time.perf_counter()
         start_time = time.perf_counter()
         path, distance = graph.dijkstra(start, end)
         end_time = time.perf_counter()
