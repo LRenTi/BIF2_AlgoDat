@@ -2,7 +2,6 @@ import sys
 import argparse
 import heapq
 import time
-#from collections import defaultdict
 
 class Station:
     def __init__(self, name):
