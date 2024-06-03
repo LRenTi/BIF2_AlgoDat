@@ -106,7 +106,8 @@ def print_station(station):
     print(f"{station.name}:")
     for connection in station.connections:
         print(f"  -> {connection.to_station.name} (line: {connection.line}, cost: {connection.cost})")
-    
+#
+
 def parse_graph(filename):
     graph = Graph()
     with open(filename, 'r') as file:
@@ -177,7 +178,6 @@ def main():
         if start not in graph.stations or end not in graph.stations:
             print("Shortest Distance calculation not possible, one or more stations not found in textfile")
             return
-        start_time = time.perf_counter()
         start_time = time.perf_counter()
         path, distance = graph.dijkstra(start, end)
         end_time = time.perf_counter()
