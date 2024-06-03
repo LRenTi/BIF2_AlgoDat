@@ -54,7 +54,7 @@ class Graph:
             # Remove and return the station with the shortest distance from the priority queue
             # Always at first position of the heap (min-heap)
             # Ensures that the station with the shortest distance is visited next
-            current_distance, current_station = heapq.heappop(unvisited_stations)
+            current_distance, current_station = heapq.heappop(unvisited_stations) # O(log(V)) where V is the number of vertices
 
             # Check if the destination station is reached
             if current_station == self.stations[end]: 
