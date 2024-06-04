@@ -106,12 +106,11 @@ def print_station(station):
     print(f"{station.name}:")
     for connection in station.connections:
         print(f"  -> {connection.to_station.name} (line: {connection.line}, cost: {connection.cost})")
-#
 
 def parse_graph(filename):
     graph = Graph()
     with open(filename, 'r') as file:
-        for line in file:
+        for line in file: # O(n) where n are the lines in the file
             parts = line.split(':')
             line_name = parts[0].strip()
             stations = parts[1].strip().split('"')[1::2]
@@ -120,7 +119,7 @@ def parse_graph(filename):
                 print("Invalid input format.")
                 return None
             
-            for i in range(len(stations) - 1):
+            for i in range(len(stations) - 1): # O(m) where m are the stations per line
                 graph.add_edge(line_name, stations[i], stations[i+1], times[i])
     
     return graph
